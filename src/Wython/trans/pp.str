@@ -1,0 +1,49 @@
+module pp
+
+imports
+
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/editor/refactoring/-
+  pp/Wython-parenthesize
+  pp/Wython-pp
+
+rules
+
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
+
+rules
+  
+  pp-Wython-string =
+    parenthesize-Wython
+    ; prettyprint-Wython-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-partial-Wython-string =
+    parenthesize-Wython
+    ; prettyprint-Wython
+    ; !V([], <id>)
+    ; box2text-string(|120)
+    
+  pp-partial-Wython-string(|sort) =
+    parenthesize-Wython
+    ; prettyprint-Wython(|sort)
+    ; !V([], <id>)
+    ; box2text-string(|120)  
+      
+  pp-debug :
+    ast -> result
+    with
+       result := <pp-Wython-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-Wython-string); debug(!"cannot pp ")))> ast
+    ;  result := ""
+
+rules
+  
+  construct-textual-change = construct-textual-change(pp-partial-Wython-string, parenthesize, override-reconstruction, resugar)
