@@ -19,7 +19,7 @@ according to a logical progression.
 Level 0: Lexical Expressions & Output
 Level 1: Expressions
 Level 2: Statements & Variables
-Level 3: Functions
+Level 3: Functions & Type Annotations
 Level 4: Data Structures (Lists, Dicts etc.)
 Level 5: Classes
 Level 6: Lambdas
