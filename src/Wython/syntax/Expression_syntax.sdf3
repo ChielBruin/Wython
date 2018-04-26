@@ -5,8 +5,20 @@ imports
   ID_syntax
   Type_syntax
 
+template options
+    tokenize: "(;{[,.!"
+    keyword -/- [a-zA-Z0-9]
+
 context-free start-symbols
   Exp
+
+context-free priorities
+    {left:      Exp.AIndex Exp.FunctionCall}  >
+    {right:     Exp.Not}                        >
+    {left:      Exp.Mul}                        >
+    {left:      Exp.Add Exp.Sub}                >
+    {non-assoc: Exp.Lt}                         >
+    {left:      Exp.And}
 
 context-free syntax
   
@@ -17,7 +29,37 @@ context-free syntax
   Exp.False   = "False"
   Exp.None    = "None"
   Exp.ID      = ID
+  Exp         = "(" Exp ")"    {bracket}
   
+  Exp.Pow     = Exp "**" Exp   {left}
+  Exp.Mul     = Exp "*" Exp    {left}
+  Exp.IntDiv  = Exp "//" Exp   {left}
+  Exp.Div     = Exp "/" Exp    {left}
+  Exp.Mod     = Exp "%" Exp    {left}
+  Exp.Add     = Exp "+" Exp    {left}
+  Exp.Sub     = Exp "-" Exp    {left}
+
+  Exp.Lt      = Exp "<" Exp    {non-assoc}
+  Exp.Leq     = Exp "<=" Exp   {non-assoc}
+  Exp.Gt      = Exp ">" Exp    {non-assoc}
+  Exp.Geq     = Exp ">=" Exp   {non-assoc}
+  Exp.Neq     = Exp "<>" Exp   {non-assoc}
+  Exp.Neq     = Exp "!=" Exp   {non-assoc}
+  
+  Exp.Eq      = Exp "==" Exp          {non-assoc}
+  Exp.ObjEq   = <<Exp> is <Exp>>      {non-assoc}
+  Exp.IsNot   = <<Exp> is not <Exp>>  {non-assoc}
+  
+  Exp.In      = <<Exp> in <Exp>>      {non-assoc}
+  Exp.NotIn   = <<Exp> not in <Exp>>  {non-assoc}
+  
+  Exp.And     = Exp "and" Exp  {left}
+  Exp.Or      = Exp "or" Exp   {left}
+
+  Exp.AIndex  = Exp "[" IndexExp "]"     {left}
+  IndexExp    = Exp
+  Exp.Not     = "!" Exp                  {right}
+
   Exp.FunctionCall = <<ID>(<FunctionArgs>)>
   Exp.FunctionCall = <<ID>()>
   FunctionArgs.Single   = FunctionArg

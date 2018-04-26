@@ -4,6 +4,7 @@ language Wython
 
 start symbol Exp
 
+
 // Expression "[" Expression "]"
 test EAR normal case            [[[ id[6] ]]]       parse succeeds
 test EAR normal case space      [[[ id [6] ]]]      parse succeeds
@@ -15,57 +16,15 @@ test EAR complex case AST       [[[ id[1 + 2] ]]]   parse to [[[ id[(1+2)] ]]]
 test EAR missing second bracket [[[ id[12 ]]]       parse fails
 test EAR missing first bracket  [[[ id 12] ]]]      parse fails
 test EAR missing second value   [[[ id[] ]]]        parse fails
-test EAR non expression 1       [[[ _d[2] ]]]       parse fails
-test EAR non expression 2       [[[ id[_d] ]]]      parse fails
-
-// Expression "." "length"
-test ELE normal case            [[ id.length ]]     parse succeeds
-test ELE length as function     [[ id.length() ]]   parse succeeds // As it is an ID and therefore valid
-test ELE notLength              [[ id.notlength ]]  parse fails
-test ELE exp.exp                [[ id.True ]]       parse fails
-test ELE other separator        [[ id,length ]]     parse fails
-test ELE space separator        [[ id length ]]     parse fails
-
-// Expression "." Identifier "(" ( Expression ( "," Expression )* )? ")"
-test EFA normal case 0 args     [[ id.function() ]]             parse succeeds
-test EFA normal case 1 args     [[ id.function(1) ]]            parse succeeds
-test EFA normal case 2 args     [[ id.function(1, 2) ]]         parse succeeds
-test EFA normal case 3 args     [[ id.function(1, 2, 3) ]]      parse succeeds
-test EFA complex args           [[ id.function(1+1) ]]          parse succeeds
-test EFA complex                [[ new Fac().ComputeFac(10) ]]  parse succeeds
-test EFA non identifier         [[ id.1(1, 2, 3) ]]             parse fails
-test EFA trailing comma         [[ id.fun(1, 2,) ]]             parse fails
-test EFA space separated        [[ id.fun(1 2 3) ]]             parse fails
-test EFA missing second bracket [[ id.function(1, 2, 3 ]]       parse fails
-test EFA missing first bracket  [[ id.function 1, 2, 3) ]]      parse fails
-test EFA method call as arg     [[ id.fun(id.fun(2))]]          parse succeeds
-test EPR method call AST        [[ id.fun(od.fan(2))]]          parse to Wython [[ id.fun((od.fan(2))) ]]
-
-// "new" "int" "[" Expression "]"
-test ENI normal case            [[[ new int[5] ]]]      parse succeeds
-test ENI boolean length         [[[ new int[True] ]]]   parse succeeds
-test ENI complex length         [[[ new int[1+1] ]]]    parse succeeds
-test ENI id length              [[[ new int[id] ]]]     parse succeeds
-test ENI no int                 [[[ new boolean[5] ]]]  parse fails
-test ENI no new                 [[[ old int[5] ]]]      parse fails
-test ENI missing second bracket [[[ new int[5 ]]]       parse fails
-test ENI missing first bracket  [[[ new int5] ]]]       parse fails
-test ENI empty case             [[[ new int[] ]]]       parse fails
-
-// "new" Identifier "(" ")"
-test ENW normal case            [[ new object() ]]      parse succeeds
-test ENW no identifier          [[ new _bject() ]]      parse fails
-test ENW with argument          [[ new object(12) ]]    parse fails
-test ENW missing second bracket [[ new object( ]]       parse fails
-test ENW missing first bracket  [[ new object ) ]]      parse fails
-test ENW complex                [[ new Fac().ComputeFac().func2(di[12].test(new Test())) ]] parse succeeds
+test EAR non expression 1       [[[ def[2] ]]]      parse fails
+test EAR non expression 2       [[[ id[def] ]]]     parse fails
 
 // "!" Expression
 test ENO normal case            [[ !True ]]             parse succeeds
 test ENO double not             [[ !!True ]]            parse succeeds
 test ENO normal case            [[ !0 ]]                parse succeeds
 test ENO normal case            [[ !identifier ]]       parse succeeds
-test ENO invalid expression     [[ !_id ]]              parse fails
+test ENO invalid expression     [[ !def ]]              parse fails
 test ENO associativity          [[ ! True and False ]]   parse to Wython [[(!True) and False]]
 
 // "(" Expression ")"
@@ -74,5 +33,3 @@ test EBR normal case            [[ (1) ]]           parse succeeds
 test EBR double brackets        [[ ((1)) ]]         parse succeeds
 test EBR bracket mismatch       [[ ((1) ]]          parse fails
 test EBR bracket mismatch       [[ (1)) ]]          parse fails
-
-test EBR int array          [[[ new int[(5)] ]]]    parse succeeds

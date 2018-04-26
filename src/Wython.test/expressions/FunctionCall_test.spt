@@ -39,3 +39,21 @@ test FUN no comma       [[func(12 13)]]      parse fails
 
 test FUN layout 1       [[func(0,1)]]        parse succeeds
 test FUN layout 2       [[func(0 , 1)]]      parse succeeds
+
+
+/*
+ * Function application on object
+ */
+ 
+test FUN normal case 0 args     [[ id.function() ]]             parse succeeds
+test FUN normal case 1 args     [[ id.function(1) ]]            parse succeeds
+test FUN normal case 2 args     [[ id.function(1, 2) ]]         parse succeeds
+test FUN normal case 3 args     [[ id.function(1, 2, 3) ]]      parse succeeds
+test FUN complex args           [[ id.function(1+1) ]]          parse succeeds
+test FUN non identifier         [[ id.1(1, 2, 3) ]]             parse fails
+test FUN trailing comma         [[ id.fun(1, 2,) ]]             parse fails
+test FUN space separated        [[ id.fun(1 2 3) ]]             parse fails
+test FUN missing second bracket [[ id.function(1, 2, 3 ]]       parse fails
+test FUN missing first bracket  [[ id.function 1, 2, 3) ]]      parse fails
+test FUN method call as arg     [[ id.fun(id.fun(2))]]          parse succeeds
+test FUN method call AST        [[ id.fun(od.fan(2))]]          parse to Wython [[ id.fun((od.fan(2))) ]]

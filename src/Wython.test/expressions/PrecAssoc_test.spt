@@ -12,7 +12,6 @@ test ASOC minus                  [[ 1 - 2 - 3 ]]         parse to Wython [[(1 - 
 test ASOC times                  [[ 1 * 2 * 3 ]]         parse to Wython [[(1 * 2) * 3]]
 
 test ASOC Array Index            [[[ id[id2[12]] ]]]     parse to Wython [[[ id[(id2[12])] ]]]
-test ASOC length                 [[ id.length.length ]]  parse to Wython [[ (id.length).length ]]
 test ASOC method call            [[ id.fun(2).funt(3)]]  parse to Wython [[ (id.fun(2)).funt(3) ]]
 test ASOC not                    [[ !!a ]]               parse to Wython [[ !(!a) ]]
 test ASOC not                    [[ !!a ]]               parse to Wython [[ !(!a) ]]
@@ -28,14 +27,11 @@ test ASOC less and and           [[21 < 14 and True]]    parse to Wython [[(21 <
 // Precedence
 test PREC not and times          [[ !True * 1 ]]     parse to Wython [[(!True) * 1]]
 test PREC plus and times         [[ 1 + 1 * 1 ]]     parse to Wython [[1 + (1 * 1)]]
-test PREC new and plus           [[ new id() + 1 ]]  parse to Wython [[(new id()) + 1]]
-test PREC new and times          [[ new id() * 1 ]]  parse to Wython [[(new id()) * 1]]
 test PREC less and times         [[ 12 < 13 * 1 ]]   parse to Wython [[12 < (13 * 1)]]
 test PREC less and plus          [[ 12 < 13 + 1 ]]   parse to Wython [[12 < (13 + 1)]]
 
 test PREC AIndex Not             [[ !id[12] ]]       parse to Wython [[ !(id[12]) ]]
 test PREC FunApp Not             [[ !id.fun(12) ]]   parse to Wython [[ !(id.fun(12)) ]]
-test PREC length Not             [[ !id.length ]]    parse to Wython [[ !(id.length) ]]
 
 test PREC Not Mul                [[ !5*5 ]]          parse to Wython [[ (!5) * 5 ]]
 
