@@ -26,7 +26,7 @@ test INT letter in int         [[12F45]]      parse fails
 test INT other in int          [[12_45]]      parse fails
 test INT positive int          [[+1]]         parse succeeds
 test INT space separated       [[1 1]]        parse fails
-test INT parentheses           [[(1)]]        parse fails
+test INT parentheses           [[(1)]]        parse succeeds
 test INT newline               [[1\n1]]       parse fails
 
 test INT negative zero digit            [[-]]         parse fails

@@ -4,21 +4,20 @@ imports
   
   Common
   Statement_syntax
-  Import_syntax
   Class_syntax
 
 context-free start-symbols
   
-  Program
+  Start
 
 context-free syntax
-  
-  Program.Empty = <>
-
   //TODO: This is too restrictive
-  Program.Program = <
-    <Import*>
-    <ClassDef*>
-    <Statement*>
+  Start.Program = <
+    <CodeElement*>
     <EOF>
   >
+  
+  CodeElement.Statement = Statement
+  CodeElement.ClassDef = ClassDef
+//  CodeElement.functionDef = FunctionDef
+  

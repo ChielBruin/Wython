@@ -4,6 +4,7 @@ imports
   
   ID_syntax
   Expression_syntax
+  Import_syntax
   
 
 context-free start-symbols
@@ -11,3 +12,4 @@ context-free start-symbols
 
 context-free syntax
   Statement = Exp
+  Statement = Import
