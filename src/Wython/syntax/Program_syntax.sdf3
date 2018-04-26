@@ -3,11 +3,22 @@ module Program_syntax
 imports
   
   Common
+  Statement_syntax
+  Import_syntax
+  Class_syntax
 
 context-free start-symbols
   
-  Start
+  Program
 
 context-free syntax
   
-  Start.Empty = <>
+  Program.Empty = <>
+
+  //TODO: This is too restrictive
+  Program.Program = <
+    <Import*>
+    <ClassDef*>
+    <Statement*>
+    <EOF>
+  >

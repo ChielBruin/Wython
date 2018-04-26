@@ -2,12 +2,20 @@ module Statement_syntax
 
 imports
   
-  Common
+  ID_syntax
+  Expression_syntax
+  
 
 context-free start-symbols
-  
-  Start
+  Statement
+  FunctionCall
 
 context-free syntax
+  Statement = FunctionCall
   
-  Start.Empty = <>
+  
+  FunctionCall.Call     = <<ID>(<FunctionArgs>)>
+  FunctionArgs.Empty    = <>
+  FunctionArgs.Single   = FunctionArg
+  FunctionArgs.Multiple = <<FunctionArg>,<FunctionArgs>>
+  FunctionArg           = Exp

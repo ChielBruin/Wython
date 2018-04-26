@@ -1,7 +1,0 @@
-module test
-
-language Wython
-
-test parse [[
-
-]] parse succeeds

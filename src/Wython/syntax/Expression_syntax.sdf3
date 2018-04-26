@@ -2,12 +2,18 @@ module Expression_syntax
 
 imports
   
-  Common
+  ID_syntax
+  Type_syntax
 
 context-free start-symbols
-  
-  Start
+  Exp
 
 context-free syntax
   
-  Start.Empty = <>
+  Exp.Int     = INT
+  Exp.Float   = FLOAT
+  Exp.String  = STRING
+  Exp.True    = "True"
+  Exp.False   = "False"
+  Exp.ID      = ID
+
