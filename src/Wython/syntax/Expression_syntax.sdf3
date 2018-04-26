@@ -15,5 +15,11 @@ context-free syntax
   Exp.String  = STRING
   Exp.True    = "True"
   Exp.False   = "False"
+  Exp.None    = "None"
   Exp.ID      = ID
-
+  
+  Exp.FunctionCall = <<ID>(<FunctionArgs>)>
+  Exp.FunctionCall = <<ID>()>
+  FunctionArgs.Single   = FunctionArg
+  FunctionArgs.Multiple = <<FunctionArg>,<FunctionArgs>>
+  FunctionArg           = Exp

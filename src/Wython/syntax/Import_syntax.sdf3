@@ -1,0 +1,24 @@
+module Import_syntax
+
+imports
+  
+  ID_syntax
+  Type_syntax
+
+context-free start-symbols
+  Import
+
+context-free syntax
+  Import.Import = <<ImportRef> <ImportAs?>>
+  
+  ImportRef.Module = <import <Module>>
+  ImportRef.From   = <from <Module> import <ModuleComponents>>
+  
+  ImportAs = ID
+  Module   = ID
+  ModuleComponent = ID
+  
+  ModuleComponents.Single   = ModuleComponent
+  ModuleComponents.Multiple = <<ModuleComponent>, <ModuleComponents>>
+  
+

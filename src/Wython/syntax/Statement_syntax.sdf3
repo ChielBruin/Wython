@@ -8,14 +8,6 @@ imports
 
 context-free start-symbols
   Statement
-  FunctionCall
 
 context-free syntax
-  Statement = FunctionCall
-  
-  
-  FunctionCall.Call     = <<ID>(<FunctionArgs>)>
-  FunctionArgs.Empty    = <>
-  FunctionArgs.Single   = FunctionArg
-  FunctionArgs.Multiple = <<FunctionArg>,<FunctionArgs>>
-  FunctionArg           = Exp
+  Statement = Exp

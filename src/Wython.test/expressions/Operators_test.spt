@@ -1,0 +1,148 @@
+module Expressionimport
+
+language Wython
+
+start symbol Exp
+
+/*
+ * Binary arithmatic expressions [**, *, /, //, %, +, -]
+ */
+
+test BA power digit         [[1 ** 2]]              parse succeeds
+test BA power id            [[hello ** 5]]          parse succeeds
+test BA power boolean       [[True ** False]]       parse succeeds
+test BA power noExp1        [[12 ** def]]           parse fails
+test BA power noExp2        [[@ ** 12]]             parse fails
+
+test BA times digit         [[1 * 2]]               parse succeeds
+test BA times id            [[hello * 3]]           parse succeeds
+test BA times boolean       [[True * False]]        parse succeeds
+test BA times noExp1        [[12 * def]]            parse fails
+test BA times noExp2        [[@ * 12]]              parse fails
+
+test BA division digit      [[1 / 2]]               parse succeeds
+test BA division id         [[hello / 3]]           parse succeeds
+test BA division boolean    [[True / False]]        parse succeeds
+test BA division noExp1     [[12 / def]]            parse fails
+test BA division noExp2     [[@ / 12]]              parse fails
+
+test BA intdivision digit   [[1 // 2]]              parse succeeds
+test BA intdivision id      [[hello // 3]]          parse succeeds
+test BA intdivision boolean [[True // False]]       parse succeeds
+test BA intdivision noExp1  [[12 // def]]           parse fails
+test BA intdivision noExp2  [[@ // 12]]             parse fails
+
+test BA modulo digit        [[1 % 2]]               parse succeeds
+test BA modulo id           [[hello % 3]]           parse succeeds
+test BA modulo boolean      [[True % False]]        parse succeeds
+test BA modulo noExp1       [[12 % def]]            parse fails
+test BA modulo noExp2       [[@ % 12]]              parse fails
+
+test BA plus digit          [[1 + 2]]               parse succeeds
+test BA plus id             [[hello + 5]]           parse succeeds
+test BA plus boolean        [[True + False]]        parse succeeds
+test BA plus noExp1         [[12 + def]]            parse fails
+test BA plus noExp2         [[@ + 12]]              parse fails
+ 
+test BA minus digit         [[1 - 2]]               parse succeeds
+test BA minus id            [[hello + 5]]           parse succeeds
+test BA minus boolean       [[True - False]]        parse succeeds
+test BA minus noExp1        [[12 - def]]            parse fails
+test BA minus noExp2        [[@ - 12]]              parse fails
+
+
+test BA increment          [[ 11++ ]]          parse fails
+test BA decrement          [[ 11-- ]]          parse fails
+test BA increment2         [[ ++11 ]]          parse fails
+test BA decrement2         [[ --11 ]]          parse fails
+
+
+ /*
+ * Binary boolean expressions [<, <=, >, >=, <>, !=, is, is not, in, not in, and, or]
+ */
+ 
+test BB less digit     [[1 < 2]]                parse succeeds
+test BB less id        [[hello < False]]        parse succeeds
+test BB less boolean   [[True < False]]         parse succeeds
+test BB less noExp1    [[12 < def]]             parse fails
+test BB less noExp2    [[import < 12]]          parse fails
+
+test BB leq digit     [[1 <= 2]]                parse succeeds
+test BB leq id        [[hello <= False]]        parse succeeds
+test BB leq boolean   [[True <= False]]         parse succeeds
+test BB leq noExp1    [[12 <= def]]             parse fails
+test BB leq noExp2    [[import <= 12]]          parse fails
+ 
+test BB more digit     [[1 > 2]]                parse succeeds
+test BB more id        [[hello > False]]        parse succeeds
+test BB more boolean   [[True > False]]         parse succeeds
+test BB more noExp1    [[12 > def]]             parse fails
+test BB more noExp2    [[import > 12]]          parse fails
+
+test BB geq digit     [[1 >= 2]]                parse succeeds
+test BB geq id        [[hello >= False]]        parse succeeds
+test BB geq boolean   [[True >= False]]         parse succeeds
+test BB geq noExp1    [[12 >= def]]             parse fails
+test BB geq noExp2    [[import >= 12]]          parse fails
+
+test BB neq digit     [[1 <> 2]]                parse succeeds
+test BB neq id        [[hello <> False]]        parse succeeds
+test BB neq boolean   [[True <> False]]         parse succeeds
+test BB neq noExp1    [[12 <> def]]             parse fails
+test BB neq noExp2    [[import <> 12]]          parse fails
+
+test BB neq2 digit    [[1 != 2]]                parse succeeds
+test BB neq2 id       [[hello != False]]        parse succeeds
+test BB neq2 boolean  [[True != False]]         parse succeeds
+test BB neq2 noExp1   [[12 != def]]             parse fails
+test BB neq2 noExp2   [[import != 12]]          parse fails
+
+test BB eq digit      [[1 == 2]]                parse succeeds
+test BB eq id         [[hello == False]]        parse succeeds
+test BB eq boolean    [[True == False]]         parse succeeds
+test BB eq noExp1     [[12 == def]]             parse fails
+test BB eq noExp2     [[import == 12]]          parse fails
+
+test BB is digit     [[1 is 2]]                 parse succeeds
+test BB is id        [[hello is False]]         parse succeeds
+test BB is boolean   [[True is False]]          parse succeeds
+test BB is noExp1    [[12 is def]]              parse fails
+test BB is noExp2    [[import is 12]]           parse fails
+
+test BB is not digit     [[1 is not 2]]                parse succeeds
+test BB is not id        [[hello is not False]]        parse succeeds
+test BB is not boolean   [[True is not False]]         parse succeeds
+test BB is not noExp1    [[12 is not def]]             parse fails
+test BB is not noExp2    [[import is not 12]]          parse fails
+
+test BB in digit     [[1 in 2]]                 parse succeeds
+test BB in id        [[hello in False]]         parse succeeds
+test BB in boolean   [[True in False]]          parse succeeds
+test BB in noExp1    [[12 in def]]              parse fails
+test BB in noExp2    [[import in 12]]           parse fails
+
+test BB not in digit     [[1 not in 2]]                parse succeeds
+test BB not in id        [[hello not in False]]        parse succeeds
+test BB not in boolean   [[True not in False]]         parse succeeds
+test BB not in noExp1    [[12 not in def]]             parse fails
+test BB not in noExp2    [[import not in 12]]          parse fails
+
+test BB and digit    [[1 and 2]]                parse succeeds
+test BB and id       [[hello and False]]        parse succeeds
+test BB and boolean  [[True and False]]         parse succeeds
+test BB and noExp1   [[@ and False]]            parse fails
+test BB single and   [[True And False]]         parse fails
+test BB &&           [[True && False]]          parse fails
+
+test BB or digit     [[1 or 2]]                 parse succeeds
+test BB or id        [[hello or False]]         parse succeeds
+test BB or boolean   [[True or False]]          parse succeeds
+test BB or noExp1    [[@ or False]]             parse fails
+test BB single or    [[True Or False]]          parse fails
+test BB ||           [[True || False]]          parse fails
+
+test BB bitwise or       [[ 11 | 12 ]]          parse fails
+test BB bitwise and      [[ 11 & 12 ]]          parse fails
+test BB bitwise xor      [[ 11 ^ 12 ]]          parse fails
+test BB left bit shift   [[ 11 << 12 ]]         parse fails
+test BB right bit shift  [[ 11 >> 12 ]]         parse fails

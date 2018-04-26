@@ -1,0 +1,14 @@
+module Class_syntax
+
+imports
+  
+  ID_syntax
+  Type_syntax
+
+context-free start-symbols
+  ClassDef
+
+context-free syntax
+  
+  ClassDef.Empty = <>
+
