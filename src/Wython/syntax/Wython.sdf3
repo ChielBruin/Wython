@@ -1,13 +1,10 @@
 module Wython
 
 imports
-  
-  Common
 
-context-free start-symbols
-  
-  Start
-
-context-free syntax
-  
-  Start.Empty = <>
+  Program_syntax
+  Expression_syntax
+  Statement_syntax
+//  Type_syntax
+//  FunctionDecl_syntax
+//  ClassDecl_syntax
