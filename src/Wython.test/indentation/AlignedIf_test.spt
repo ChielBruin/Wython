@@ -1,0 +1,44 @@
+module AlignedIf_test
+
+language Wython
+
+start symbol Start
+
+test if correctly indented [[ 
+    if True:
+      pass
+    elif False:
+      pass
+    else:
+      pass
+]] parse succeeds
+
+test two ifs correctly indented [[ 
+    if True:
+      pass
+    if False:
+      pass
+    else:
+      pass
+]] parse succeeds
+
+test two nested ifs [[ 
+    if True:
+      pass
+      if False:
+        pass
+    else:
+      pass
+]] parse succeeds
+
+test if correctly indented multiline[[ 
+    if True:
+      print(42)
+      pass
+    elif False:
+      print(41)
+      pass
+    else:
+      print(40)
+      pass
+]] parse succeeds

@@ -1,0 +1,40 @@
+module AllignedBlock_test
+
+language Wython
+
+start symbol Start
+
+test single line [[ 
+    print(12)
+]] parse succeeds
+
+test alligned lines [[ 
+    print(12)
+    print(12)
+    pass
+]] parse succeeds
+
+test misalligned lines [[ 
+    print(12)
+     pass
+    print(12)
+]] parse fails
+
+test two statements on one line [[ 
+    print(12) pass
+]] parse fails
+
+test trailing whitespace [[ 
+    print(12) 
+    print(12)  
+]] parse succeeds
+
+test Comment unindented [[ 
+    print(12) # Comment
+    print(12)
+]] parse succeeds
+
+test Comment indented [[ 
+    print(12) # Comment
+     print(12)
+]] parse fails

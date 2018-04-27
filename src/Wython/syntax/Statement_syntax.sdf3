@@ -1,15 +1,52 @@
 module Statement_syntax
 
 imports
-  
+  Common
   ID_syntax
   Expression_syntax
   Import_syntax
+  Program_syntax
   
 
 context-free start-symbols
   Statement
+  
+template options
+    tokenize: "(;{[,.!"
+    keyword -/- [a-zA-Z0-9]
+  
+context-free priorities
 
 context-free syntax
-  Statement = Exp
-  Statement = Import
+  Statement.Pass   = "pass"
+  Statement.Exp = Exp
+  Statement.Assign = <<ID> = <Exp>>
+  Statement.AssignArray = <<ID>[<Exp>] = <Exp>>
+  Statement.Import = Import
+  
+  Statement.If = <
+    if <Exp>:
+       <then:Block>
+    <else:IfElse?>
+  > {layout(
+     indent "if" then &&
+     align "if" else
+  )}
+  
+  IfElse.Elif = <
+    elif <Exp>:
+       <then:Block>
+    <else:IfElse?>
+  > {layout(
+     indent "elif" then &&
+     align "elif" else
+  )}
+  
+  IfElse.Else = <
+    else:
+       <then:Block>
+  > {layout(
+     indent "else:" then &&
+     offside "else:" then
+  )}
+     

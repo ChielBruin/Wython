@@ -2,21 +2,13 @@ module Common
 
 lexical syntax
 
-  LAYOUT         = [\ \t\n\r] 
-  CommentChar    = [\"] 
-  LAYOUT         = "\"\"\"" InsideComment* "\"\"\"" 
-  InsideComment  = ~[\"] 
-  InsideComment  = CommentChar 
+  LAYOUT         = [\ \t\n\r]
   LAYOUT         = "#" ~[\n\r]* NewLineEOF 
   NewLineEOF     = [\n\r] 
   NewLineEOF     = EOF 
   EOF            =  
 
 lexical restrictions
-
-  // Ensure greedy matching for lexicals
-  CommentChar   -/- [\/]
-  
   // EOF may not be followed by any char
   EOF           -/- ~[]
 

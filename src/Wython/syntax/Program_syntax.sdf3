@@ -7,17 +7,33 @@ imports
   Class_syntax
 
 context-free start-symbols
-  
   Start
 
 context-free syntax
-  //TODO: This is too restrictive
-  Start.Program = <
-    <CodeElement*>
+ Start.Empty = <
     <EOF>
   >
+
+  Start.Program = <
+    <Block>
+  >
+  
+  //TODO: This is hacky and does not really work
+  Block.Aligned = <
+    <head:CodeElement>
+    <tail:Block?>
+  > {layout( align head tail )}
+  
+  // This should work (according to the documentation), but doesn't
+  // http://www.metaborg.org/en/latest/source/langdev/meta/lang/sdf3/reference.html#layout-sensitive-parsing
+//  Block.Aligned = <
+//    <body:CodeElement+>
+//  > {layout( align body )}
   
   CodeElement.Statement = Statement
   CodeElement.ClassDef = ClassDef
 //  CodeElement.functionDef = FunctionDef
   
+context-free restrictions
+  //TODO: Allow trailing whitespace
+  CodeElement -/- ~[\n]
