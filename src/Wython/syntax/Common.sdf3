@@ -4,17 +4,17 @@ lexical syntax
 
   ID             = [a-zA-Z] [a-zA-Z0-9]* 
   INT            = "-"? [0-9]+ 
-  STRING         = "\"" StringChar* "\"" 
+  STRING         = "'" StringChar* "'" 
   StringChar     = ~[\"\n] 
-  StringChar     = "\\\"" 
+  StringChar     = "\\'" 
   StringChar     = BackSlashChar 
   BackSlashChar  = "\\" 
   LAYOUT         = [\ \t\n\r] 
-  CommentChar    = [\*] 
-  LAYOUT         = "/*" InsideComment* "*/" 
-  InsideComment  = ~[\*] 
+  CommentChar    = [\"] 
+  LAYOUT         = "\"\"\"" InsideComment* "\"\"\"" 
+  InsideComment  = ~[\"] 
   InsideComment  = CommentChar 
-  LAYOUT         = "//" ~[\n\r]* NewLineEOF 
+  LAYOUT         = "#" ~[\n\r]* NewLineEOF 
   NewLineEOF     = [\n\r] 
   NewLineEOF     = EOF 
   EOF            =  
