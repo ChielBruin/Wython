@@ -1,9 +1,9 @@
-module Expression_syntax
+module Expression
 
 imports
   
-  ID_syntax
-  Type_syntax
+  ID
+  Type
 
 template options
     tokenize: "(;{[,.!"

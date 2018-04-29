@@ -1,9 +1,9 @@
-module Import_syntax
+module Import
 
 imports
   
-  ID_syntax
-  Type_syntax
+  ID
+  Type
 
 context-free start-symbols
   Import

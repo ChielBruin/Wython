@@ -1,9 +1,9 @@
-module Class_syntax
+module Class
 
 imports
   
-  ID_syntax
-  Type_syntax
+  ID
+  Type
 
 context-free start-symbols
   ClassDef

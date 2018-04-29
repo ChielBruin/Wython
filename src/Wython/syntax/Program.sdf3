@@ -1,10 +1,10 @@
-module Program_syntax
+module Program
 
 imports
   
   Common
-  Statement_syntax
-  Class_syntax
+  Statement
+  Class
 
 context-free start-symbols
   Start

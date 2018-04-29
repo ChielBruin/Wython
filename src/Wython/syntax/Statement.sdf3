@@ -1,11 +1,11 @@
-module Statement_syntax
+module Statement
 
 imports
   Common
-  ID_syntax
-  Expression_syntax
-  Import_syntax
-  Program_syntax
+  ID
+  Expression
+  Import
+  Program
   
 
 context-free start-symbols
