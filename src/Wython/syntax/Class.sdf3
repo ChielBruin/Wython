@@ -4,11 +4,17 @@ imports
   
   ID
   Type
+  Program
 
 context-free start-symbols
   ClassDef
 
 context-free syntax
   
-  ClassDef.Empty = <class <ID> (object):>
+  ClassDef.Class = <
+    class <ID> (<ID>):
+        <body:Block>
 
+  > {layout(
+     indent ":" body
+  )}
