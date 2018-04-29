@@ -2,9 +2,6 @@ module desugar
 
 imports
   src-gen/signatures/Wython-sig
-  src-gen/signatures/Expression-sig
-  src-gen/signatures/Statement-sig
-  src-gen/signatures/Class-sig
 
 strategies
 //  desugar-all = innermost(desugar)
