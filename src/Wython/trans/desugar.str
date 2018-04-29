@@ -1,7 +1,7 @@
 module desugar
 
 imports
-  src-gen/signatures/Wython-sig
+  src-gen/signatures/Program-sig
 
 strategies
 //  desugar-all = innermost(desugar)
@@ -23,6 +23,8 @@ rules
   // to a Block containing only the statements
   desugar: Aligned(lines) -> Block(des-lines)
     where
-      des-lines := <map(desugar-lines)> lines
+      des-lines := <mapconcat(desugar-lines)> lines
       
-  desugar-lines: Line(s, _) -> s
+  desugar-lines: SingleStatement(s, _) -> [s]
+  
+  desugar-lines: StatementList(h, _) -> h

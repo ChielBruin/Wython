@@ -24,7 +24,9 @@ context-free syntax
     <body:CodeLine+>
   > {layout( align 0 body )}
   
-  CodeLine.Line = CodeElement NewLineEOF // Force that there can only be a single statement on a line
+  // Force that there can only be a single statement on a line, or ; separated
+  CodeLine.SingleStatement = CodeElement NewLineEOF {prefer}
+  CodeLine.StatementList   = {CodeElement ";"}+ NewLineEOF
   
   CodeElement.Statement = Statement
   CodeElement.ClassDef = ClassDef
