@@ -23,6 +23,6 @@ rules
   // to a Block containing only the statements
   desugar: Aligned(lines) -> Block(des-lines)
     where
-      des-lines := <map(desugar-lines)> <debug> lines
+      des-lines := <map(desugar-lines)> lines
       
   desugar-lines: Line(s, _) -> s
