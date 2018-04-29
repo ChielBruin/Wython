@@ -18,22 +18,14 @@ context-free syntax
     <Block>
   >
   
-  //TODO: This is hacky and does not really work
-  Block.Aligned = <
-    <head:CodeElement>
-    <tail:Block?>
-  > {layout( align head tail )}
-  
-  // This should work (according to the documentation), but doesn't
+  // This should work (according to the documentation), but doesn't force the alignment
   // http://www.metaborg.org/en/latest/source/langdev/meta/lang/sdf3/reference.html#layout-sensitive-parsing
-//  Block.Aligned = <
-//    <body:CodeElement+>
-//  > {layout( align body )}
+  Block.Aligned = <
+    <body:CodeLine+>
+  > {layout( align 0 body )}
+  
+  CodeLine = CodeElement NewLineEOF // Force that there can only be a single statement on a line
   
   CodeElement.Statement = Statement
   CodeElement.ClassDef = ClassDef
 //  CodeElement.functionDef = FunctionDef
-  
-context-free restrictions
-  //TODO: Allow trailing whitespace
-  CodeElement -/- ~[\n]
