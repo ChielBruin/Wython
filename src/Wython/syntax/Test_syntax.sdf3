@@ -1,0 +1,40 @@
+module Test_syntax
+
+imports
+  
+  Common
+  ID_syntax
+  Expression_syntax
+  Import_syntax
+  Parameters_syntax
+
+context-free syntax
+
+  TestList.TestList = Test TestNode* Comma?
+  TestNode.Node = "," Test
+
+  Test.Test = OrTest OrTestExtension? 
+  OrTestExtension.OrTest = "if" OrTest "else" Test
+  OrTest.OrTest = AndTest AndTestExtension?
+  AndTestExtension.AndTest = "or" AndTest
+  AndTest.AndTest = NotTest NotTestExtension*
+  NotTestExtension.NotTest = "and" NotTest
+  NotTest.NotTest = "not" NotTest
+  NotTest.Comparison = Exp ComparisonExtension*
+
+  ComparisonExtension.Comparison = ComparisonOperator Exp
+
+  ComparisonOperator.Lt = "<"
+  ComparisonOperator.Gt = ">"
+  ComparisonOperator.Eq = "=="
+  ComparisonOperator.Geq = ">="
+  ComparisonOperator.Leq = "<="
+  ComparisonOperator.Neq = "!="
+  ComparisonOperator.In = "in"
+  ComparisonOperator.NotIn = "not" "in"
+  ComparisonOperator.Is = "is"
+  ComparisonOperator.IsNot = "is" "not"
+  
+  Test.LambdaDef = LambdaDef
+  
+  LambdaDef.LambdaDef = "lambda" ParameterList? ":" Test

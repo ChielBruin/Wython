@@ -2,6 +2,7 @@ module Expression_syntax
 
 imports
   
+  Common
   ID_syntax
   Type_syntax
 
@@ -21,7 +22,13 @@ context-free priorities
     {left:      Exp.And}
 
 context-free syntax
+
+  PossibleStarExp.Exp = Exp
+  PossibleStarExp.StarExp = "*" Exp
   
+  ExpressionList.List = PossibleStarExp ExpressionListNode* Comma?
+  ExpressionListNode.Node = "," PossibleStarExp 
+
   Exp.Int     = INT
   Exp.Float   = FLOAT
   Exp.String  = STRING

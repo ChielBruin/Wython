@@ -1,0 +1,33 @@
+module Parameters_syntax
+
+imports
+  
+  Common
+  ID_syntax
+  Test_syntax
+  
+sorts
+
+  SimpleStatement
+
+context-free start-symbols
+
+  ParameterList
+
+context-free syntax
+
+  ParameterList.ParamsFirst = Param ParameterNode* Comma? KwargNode?
+  ParameterList.ArgsFirst = Args ParameterNode* Comma? Kwargs?
+  ParameterList.Kwargs = Kwargs
+
+  Param.Param = ID InitialValue? 
+
+  ParameterNode.Node = "," ID InitialValue?
+
+  InitialValue.Assign = "=" Test
+
+  Args.Args = "*" ID? ParameterNode* Comma? Kwargs?
+
+  Kwargs.Kwargs = "**" ID Comma?
+
+  KwargNode.KwargNode = Args ParameterNode* Comma? Kwargs?
