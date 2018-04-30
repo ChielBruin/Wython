@@ -5,28 +5,38 @@ imports
   Common
   ID
   Test
-sorts
-
-  SimpleStatement
-
-context-free start-symbols
-
-  ParameterList
 
 context-free syntax
 
-  ParameterList.ParamsFirst = Param ParameterNode* Comma? KwargNode?
-  ParameterList.ArgsFirst = Args ParameterNode* Comma? Kwargs?
-  ParameterList.Kwargs = Kwargs
+  VarArgsList.Args = ArgDef ArgDefNode* Comma? KwargsDefs?
+  VarArgsList.WildCard = "*" ArgDefs ArgDefNode* Comma? KwargsDef?
+  VarArgsList.Kwargs = KwargsDefs
+  
+  TypedArgsList.TypedArgs = TypedArgDef TypedArgDefNode* Comma? TypeDefs?
+  TypedArgsList.TypedWildcard = "*" TypedArgDef? TypedArgDefNode* Comma? KwargsTypeDef?
+  TypedArgsList.TypedKwargs = KwargsTypeDef
+  
+  ArgDef.ArgDef = ID InitialValue? 
 
-  Param.Param = ID InitialValue? 
+  TypedArgDef.TypedArgDef = ID TypedArgDefExtension? InitialValue?
 
-  ParameterNode.Node = "," ID InitialValue?
+  ArgDefNode.Node = "," ArgDef
 
-  InitialValue.Assign = "=" Test
+  TypedArgDefNode.TypedArgDefNode = "," TypedArgDef
 
-  Args.Args = "*" ID? ParameterNode* Comma? Kwargs?
+  ArgDefs.ArgDefs = ID? ArgDefNode* Comma? KwargsDef?
+  
+  TypeDefs.TypeDefs = "*" TypedArgDef? TypedArgDefNode* Comma? KwargsTypeDef?
+  TypeDefs.KwargsDef = KwargsTypeDef
 
-  Kwargs.Kwargs = "**" ID Comma?
+  TypedArgDefExtension.TypedArgDefExtension = ":" Test
+  
+  KwargsDef.KwargsDef = "**" ID Comma?
 
-  KwargNode.KwargNode = Args ParameterNode* Comma? Kwargs?
+  KwargsDefs.KwargsDefs = ArgDefs ArgDefNode* Comma? KwargsDef?
+
+  KwargsTypeDef.KwargsTypeDef = "**" TypedArgDef Comma?
+  
+  Parameters.Parameters = "(" TypedArgsList ")"
+
+  InitialValue.InitialValue = "=" Test

@@ -8,7 +8,9 @@ imports
   Program
   Statement
   SimpleStatement
+  Parameters
   Test
+  Class
 
 context-free start-symbols
 
@@ -18,21 +20,40 @@ context-free syntax
 
     CompoundStatement.If = "if" Test ":" Suite Elif* Else?
     CompoundStatement.While = "while" Test ":" Suite Else?
-    CompoundStatement.For = "for" ExpressionList "in" TestList ":" Suite Else?
-    CompoundStatement.Try = 
-    CompoundStatement.With = "with" WithItem WithItemNode* ":" Suite
-    CompoundStatement.Funcdef = "def" ID "(" TypedParamsList? ")" FuncType ":" Suite
-    CompoundStatement.Classdef = "class" ID ArgList? ":" Suite
+    CompoundStatement.For = For
+    CompoundStatement.Try = "try" ":" Suite Except+ Else? Finally?
+    CompoundStatement.TryFinally = "try" ":" Suite Finally
+    CompoundStatement.With = With
+    CompoundStatement.FuncDef = "Def" ID Parameters? FuncType ":" Suite
+    CompoundStatement.ClassDef = "class" ID ArgList? ":" Suite
     CompoundStatement.Decorated = Decorators Definition
-    CompoundStatement.Async =
+    CompoundStatement.AsyncFunc = Async FuncDef
+    CompoundStatement.AsyncWith = Async With
+    CompoundStatement.AsyncFor = Async For
     
-    Decorators.Decorators: Decorator+
+    With.With = "with" WithItem WithItemNode* ":" Suite
+
+    For.For = "for" ExpList "in" TestList ":" Suite Else?
+    
+    Finally.Finally = "finally" ":" Suite
+
+    Except.Except = ExceptClause ":" Suite
+    
+    ExceptClause.ExceptClause = "except" ExceptArgument?
+
+    ExceptArgument.ExceptArgument = Test AsID?
+
+    Decorators.Decorators = Decorator+
     
     Decorator.Decorator = "@" DottedName ArgList? NewLine
 
-    Definition.Classdef = Classdef
-    Definition.Funcdef = Funcdef
-    Definition.AsyncFuncdef = AsyncFuncdef
+    Definition.ClassDef = ClassDef
+    Definition.FuncDef = FuncDef
+    Definition.AsyncFuncDef = AsyncFuncDef
+    
+    AsyncFuncDef.AsyncFuncDef = Async FuncDef
+    
+    FuncDef.FuncDef = "def" ID Parameters FuncType? ":" Suite
     
     ArgList.ArgList = "(" Argument ArgumentListNode* Comma? ")"
 
@@ -43,7 +64,7 @@ context-free syntax
     Argument.Kwargs = "**" Test
     Argument.Args = "*" Test
 
-    CompFor.CompFor = Async? "for" ExpressionList "in" OrTest CompIter?
+    CompFor.CompFor = Async? "for" ExpList "in" OrTest CompIter?
     
     Async.Async = "async"
     
@@ -55,7 +76,6 @@ context-free syntax
     WithItemAs.As = "as" Exp
     
     WithItemNode.WithItemNode = "," WithItem
-    
 
     Elif.Elif = "elif" Test ":" Suite
     
@@ -64,7 +84,8 @@ context-free syntax
     FuncType.FuncType = "->" Test
 
     Suite.Statement = SimpleStatement
-    Suite.BlockLine = NewLine Indent Statement+ Dedent
+    // TODO
+  //  Suite.BlockLine = NewLine Indent Statement+ Dedent
 
   CompoundStatement.OldIf = <
     if <Exp>:

@@ -2,7 +2,7 @@ module Common
 
 lexical syntax
 
-  Semicolon          = ";"
+  Semicolon      = ";"
   Comma          = ","
   LAYOUT         = [\ \t\n\r]
   LAYOUT         = "#" ~[\n\r]* NewLineEOF 

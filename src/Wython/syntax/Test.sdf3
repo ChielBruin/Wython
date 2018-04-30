@@ -13,10 +13,14 @@ context-free syntax
   TestNode.Node = "," Test
 
   Test.Test = OrTest OrTestExtension? 
+  Test.LambdaDef = LambdaDef
+
   TestNocond.OrTest = OrTest
-  TestNocond = LambdefNocond
+  TestNocond = LambDefNocond
   
-  LambdefNocond.LambDefNocond = "lambda" ParameterList? ":" TestNocond
+  LambDefNocond.LambDefNocond = "lambda" VarArgsList? ":" TestNocond
+
+  LambdaDef.LambdaDef = "lambda" VarArgsList? ":" Test
     
   OrTestExtension.OrTest = "if" OrTest "else" Test
   OrTest.OrTest = AndTest AndTestExtension?
@@ -39,6 +43,4 @@ context-free syntax
   ComparisonOperator.Is = "is"
   ComparisonOperator.IsNot = "is" "not"
   
-  Test.LambdaDef = LambdaDef
   
-  LambdaDef.LambdaDef = "lambda" ParameterList? ":" Test

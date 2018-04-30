@@ -20,13 +20,13 @@ context-free syntax
 
   SimpleStatement.SimpleStatement = SmallStatement SmallStatementList* Semicolon? NewLine
 
-  SmallStatement.Expression = 
-  SmallStatement.Delete = "del" ExpressionList
+  SmallStatement.Exp = TestListStarExp ExpExtension
+  SmallStatement.Delete = "del" ExpList
   SmallStatement.Pass = "pass"
   SmallStatement.Break = "break"
   SmallStatement.Continue = "continue"
   SmallStatement.Return = "return" TestList?
-  SmallStatement.Yield = YieldExpression
+  SmallStatement.Yield = Yield
   SmallStatement.Raise = "raise" RaiseArguments?
   SmallStatement.ImportName = "import" DottedAsNames
   SmallStatement.ImportFrom = "from" ImportFromArgs "import" ImportItems
@@ -34,20 +34,54 @@ context-free syntax
   SmallStatement.NonLocal = "nonlocal" ID IDList*
   SmallStatement.Assert = "assert" Test TestNode?
   
+  
+  ExpExtension.AnnAssign = AnnAssign
+  ExpExtension.AuggAssign = AuggAssign AuggAssignArguments
+  ExpExtension.AssignList = AssignList
+
+  AnnAssign.AnnAssign = ":" Test InitialValue*
+
+  AuggAssignArguments.Yield = Yield
+  AuggAssignArguments.TestList = TestList
+  
+  AssignList.AssignList = "=" AssignArguments 
+  AssignArguments.Yield = Yield
+  AssignArguments.TestListStarExp = TestListStarExp
+  
+  TestListStarExp.TestFirst = Test TestListStarExpNode* Comma?
+  TestListStarExp.StarExpFirst = StarExp TestListStarExpNode* Comma?
+
+  TestListStarExpNode.TestNode = "," Test
+  TestListStarExpNode.StarExpNode = "," StarExp
+
+  AuggAssign.PlusEqual = "+="
+  AuggAssign.MinusEqual = "-="
+  AuggAssign.TimesEqual = "*="
+  AuggAssign.AtEqual = "@="
+  AuggAssign.DivEqual = "/="
+  AuggAssign.ModEqual = "%="
+  AuggAssign.BitwiseAndEqual = "&="
+  AuggAssign.BitwiseOrEqual = "|="
+  AuggAssign.BitwiseXorEqual = "^="
+  AuggAssign.ShiftLeftEqual = "<<="
+  AuggAssign.ShiftRightEqual = ">>="
+  AuggAssign.PowEqual = "**="
+  AuggAssign.IntegerDivEqual = "//="
+    
   IDList.Node = "," ID
 
   DottedAsNames.Names = DottedAsName DottedAsNameList*
 
   DottedAsNameList.Node = "," DottedAsName
   
-  DottedAsName.AsName = DottedName AsArgument?
+  DottedAsName.AsName = DottedName AsID?
 
   DottedName.Name = ID DottedNameList*
 
   DottedNameList.Node = "." ID
 
-  AsArgument.As = "as" ID
-  
+  AsID.AsID= "as" ID
+
   IDList.IDList = "," ID
 
   Dots.Dot = "."
@@ -66,7 +100,7 @@ context-free syntax
   RaiseArguments.RaiseArgs = Test TestArguments?
   TestArguments.TestArgs = "from" Test
   
-  YieldExpression.Yield = "yield" YieldArguments?
+  Yield.Yield = "yield" YieldArguments?
 
   YieldArguments.Test = "from" Test
   YieldArguments.TestList = TestList

@@ -25,10 +25,12 @@ context-free priorities
 context-free syntax
 
   PossibleStarExp.Exp = Exp
-  PossibleStarExp.StarExp = "*" Exp
+  PossibleStarExp.StarExp = StarExp 
+
+  StarExp.StarExp = "*" Exp
   
-  ExpressionList.List = PossibleStarExp ExpressionListNode* Comma?
-  ExpressionListNode.Node = "," PossibleStarExp 
+  ExpList.List = PossibleStarExp ExpListNode* Comma?
+  ExpListNode.Node = "," PossibleStarExp 
 
   Exp         = "(" Exp ")"    {bracket}
   
