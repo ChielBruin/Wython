@@ -1,15 +1,15 @@
 Implemented using the Python 3.6.5 specification:
 
-# Grammar for Python
+\# Grammar for Python
 
-# NOTE WELL: You should also follow all the steps listed at
-# https://devguide.python.org/grammar/
+\# NOTE WELL: You should also follow all the steps listed at
+\# https://devguide.python.org/grammar/
 
-# Start symbols for the grammar:
-#       single_input is a single interactive statement;
-#       file_input is a module or sequence of commands read from an input file;
-#       eval_input is the input for the eval() functions.
-# NB: compound_stmt in single_input is followed by extra NEWLINE!
+\# Start symbols for the grammar:
+\#       single_input is a single interactive statement;
+\#       file_input is a module or sequence of commands read from an input file;
+\#       eval_input is the input for the eval() functions.
+\# NB: compound_stmt in single_input is followed by extra NEWLINE!
 single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
 file_input: (NEWLINE | stmt)* ENDMARKER
 eval_input: testlist NEWLINE* ENDMARKER
@@ -46,7 +46,7 @@ annassign: ':' test ['=' test]
 testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
 augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |
             '<<=' | '>>=' | '**=' | '//=')
-# For normal and annotated assignments, additional restrictions enforced by the interpreter
+\# For normal and annotated assignments, additional restrictions enforced by the interpreter
 del_stmt: 'del' exprlist
 pass_stmt: 'pass'
 flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
@@ -57,7 +57,7 @@ yield_stmt: yield_expr
 raise_stmt: 'raise' [test ['from' test]]
 import_stmt: import_name | import_from
 import_name: 'import' dotted_as_names
-# note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
+\# note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
 import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
               'import' ('*' | '(' import_as_names ')' | import_as_names))
 import_as_name: NAME ['as' NAME]
@@ -81,7 +81,7 @@ try_stmt: ('try' ':' suite
            'finally' ':' suite))
 with_stmt: 'with' with_item (',' with_item)*  ':' suite
 with_item: test ['as' expr]
-# NB compile.c makes sure that the default except clause is last
+\# NB compile.c makes sure that the default except clause is last
 except_clause: 'except' [test ['as' NAME]]
 suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 
@@ -93,8 +93,8 @@ or_test: and_test ('or' and_test)*
 and_test: not_test ('and' not_test)*
 not_test: 'not' not_test | comparison
 comparison: expr (comp_op expr)*
-# <> isn't actually a valid comparison operator in Python. It's here for the
-# sake of a __future__ import described in PEP 401 (which really works :-)
+\# <> isn't actually a valid comparison operator in Python. It's here for the
+\# sake of a __future__ import described in PEP 401 (which really works :-)
 comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
 star_expr: '*' expr
 expr: xor_expr ('|' xor_expr)*
@@ -126,15 +126,15 @@ classdef: 'class' NAME ['(' [arglist] ')'] ':' suite
 
 arglist: argument (',' argument)*  [',']
 
-# The reason that keywords are test nodes instead of NAME is that using NAME
-# results in an ambiguity. ast.c makes sure it's a NAME.
-# "test '=' test" is really "keyword '=' test", but we have no such token.
-# These need to be in a single rule to avoid grammar that is ambiguous
-# to our LL(1) parser. Even though 'test' includes '*expr' in star_expr,
-# we explicitly match '*' here, too, to give it proper precedence.
-# Illegal combinations and orderings are blocked in ast.c:
-# multiple (test comp_for) arguments are blocked; keyword unpackings
-# that precede iterable unpackings are blocked; etc.
+\# The reason that keywords are test nodes instead of NAME is that using NAME
+\# results in an ambiguity. ast.c makes sure it's a NAME.
+\# "test '=' test" is really "keyword '=' test", but we have no such token.
+\# These need to be in a single rule to avoid grammar that is ambiguous
+\# to our LL(1) parser. Even though 'test' includes '*expr' in star_expr,
+\# we explicitly match '*' here, too, to give it proper precedence.
+\# Illegal combinations and orderings are blocked in ast.c:
+\# multiple (test comp_for) arguments are blocked; keyword unpackings
+\# that precede iterable unpackings are blocked; etc.
 argument: ( test [comp_for] |
             test '=' test |
             '**' test |
@@ -144,7 +144,7 @@ comp_iter: comp_for | comp_if
 comp_for: [ASYNC] 'for' exprlist 'in' or_test [comp_iter]
 comp_if: 'if' test_nocond [comp_iter]
 
-# not used in grammar, but may appear in "node" passed from Parser to Compiler
+\# not used in grammar, but may appear in "node" passed from Parser to Compiler
 encoding_decl: NAME
 
 yield_expr: 'yield' [yield_arg]
