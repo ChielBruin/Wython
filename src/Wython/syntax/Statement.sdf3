@@ -4,7 +4,6 @@ imports
   Common
   ID
   Expression
-  Import
   Program
   SimpleStatement
   CompoundStatement
@@ -21,11 +20,4 @@ context-free priorities
 
 context-free syntax
   Statement = SimpleStatement
-  Statement = CompoundStatement
-  // When checked can be removed
-  Statement.Pass   = "pass"
-  Statement.Exp = Exp
-  Statement.Assign = <<ID> = <Exp>>
-  Statement.AssignArray = <<ID>[<Exp>] = <Exp>>
-  Statement.Import = Import
-  
+  Statement = CompoundStatement  

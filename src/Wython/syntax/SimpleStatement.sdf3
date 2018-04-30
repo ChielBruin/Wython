@@ -18,9 +18,9 @@ context-free start-symbols
 
 context-free syntax
 
-  SimpleStatement.SimpleStatement = SmallStatement SmallStatementList* Semicolon? NewLine
+  SimpleStatement.SimpleStatement = {SmallStatement ";"}+ Semicolon?
 
-  SmallStatement.Expression = 
+  SmallStatement.Expression = Exp
   SmallStatement.Delete = "del" ExpressionList
   SmallStatement.Pass = "pass"
   SmallStatement.Break = "break"
@@ -30,25 +30,17 @@ context-free syntax
   SmallStatement.Raise = "raise" RaiseArguments?
   SmallStatement.ImportName = "import" DottedAsNames
   SmallStatement.ImportFrom = "from" ImportFromArgs "import" ImportItems
-  SmallStatement.Global = "global" ID IDList*
-  SmallStatement.NonLocal = "nonlocal" ID IDList*
+  SmallStatement.Global = "global" {ID ","}+
+  SmallStatement.NonLocal = "nonlocal" {ID ","}+
   SmallStatement.Assert = "assert" Test TestNode?
-  
-  IDList.Node = "," ID
 
-  DottedAsNames.Names = DottedAsName DottedAsNameList*
-
-  DottedAsNameList.Node = "," DottedAsName
+  DottedAsNames.Names = {DottedAsName ","}+
   
   DottedAsName.AsName = DottedName AsArgument?
 
-  DottedName.Name = ID DottedNameList*
-
-  DottedNameList.Node = "." ID
+  DottedName.Name = {ID "."}+
 
   AsArgument.As = "as" ID
-  
-  IDList.IDList = "," ID
 
   Dots.Dot = "."
   Dots.Dots = "..."
@@ -70,5 +62,3 @@ context-free syntax
 
   YieldArguments.Test = "from" Test
   YieldArguments.TestList = TestList
-
-  SmallStatementList.Node = Semicolon SmallStatement

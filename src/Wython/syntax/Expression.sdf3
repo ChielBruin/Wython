@@ -27,8 +27,7 @@ context-free syntax
   PossibleStarExp.Exp = Exp
   PossibleStarExp.StarExp = "*" Exp
   
-  ExpressionList.List = PossibleStarExp ExpressionListNode* Comma?
-  ExpressionListNode.Node = "," PossibleStarExp 
+  ExpressionList.List = {PossibleStarExp ","}+ Comma?
 
   Exp         = "(" Exp ")"    {bracket}
   

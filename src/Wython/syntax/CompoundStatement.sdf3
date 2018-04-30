@@ -4,7 +4,7 @@ imports
   
   ID
   Expression
-  Program
+  Statement
 
 context-free start-symbols
 
@@ -14,7 +14,7 @@ context-free syntax
 
   CompoundStatement.If = <
     if <Exp>:
-       <then:Block>
+       <then:Statement+>
     <else:IfElse?>
   > {layout(
      indent "if" then &&
@@ -23,7 +23,7 @@ context-free syntax
   
   IfElse.Elif = <
     elif <Exp>:
-       <then:Block>
+       <then:Statement>
     <else:IfElse?>
   > {layout(
      indent "elif" then &&
@@ -32,7 +32,7 @@ context-free syntax
   
   IfElse.Else = <
     else:
-       <then:Block>
+       <then:Statement>
   > {layout(
      indent "else:" then &&
      offside "else:" then
