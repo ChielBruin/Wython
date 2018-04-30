@@ -2,9 +2,13 @@ module CompoundStatement
 
 imports
   
+  Common
   ID
   Expression
   Program
+  Statement
+  SimpleStatement
+  Test
 
 context-free start-symbols
 
@@ -12,7 +16,57 @@ context-free start-symbols
 
 context-free syntax
 
-  CompoundStatement.If = <
+    CompoundStatement.If = "if" Test ":" Suite Elif* Else?
+    CompoundStatement.While = "while" Test ":" Suite Else?
+    CompoundStatement.For = "for" ExpressionList "in" TestList ":" Suite Else?
+    CompoundStatement.Try = 
+    CompoundStatement.With = "with" WithItem WithItemNode* ":" Suite
+    CompoundStatement.Funcdef = "def" ID "(" TypedParamsList? ")" FuncType ":" Suite
+    CompoundStatement.Classdef = "class" ID ArgList? ":" Suite
+    CompoundStatement.Decorated = Decorators Definition
+    CompoundStatement.Async =
+    
+    Decorators.Decorators: Decorator+
+    
+    Decorator.Decorator = "@" DottedName ArgList? NewLine
+
+    Definition.Classdef = Classdef
+    Definition.Funcdef = Funcdef
+    Definition.AsyncFuncdef = AsyncFuncdef
+    
+    ArgList.ArgList = "(" Argument ArgumentListNode* Comma? ")"
+
+    ArgumentListNode.ArgumentListNode = "," Argument
+
+    Argument.CompForArgument = Test CompFor?
+    Argument.Assignment = Test "=" Test
+    Argument.Kwargs = "**" Test
+    Argument.Args = "*" Test
+
+    CompFor.CompFor = Async? "for" ExpressionList "in" OrTest CompIter?
+    
+    Async.Async = "async"
+    
+    CompIf.CompIf = "if" TestNocond CompIter?
+
+    CompIter.CompFor = CompFor
+
+    WithItem.Item = Test WithItemAs?
+    WithItemAs.As = "as" Exp
+    
+    WithItemNode.WithItemNode = "," WithItem
+    
+
+    Elif.Elif = "elif" Test ":" Suite
+    
+    Else.Else = "else" ":" Suite
+    
+    FuncType.FuncType = "->" Test
+
+    Suite.Statement = SimpleStatement
+    Suite.BlockLine = NewLine Indent Statement+ Dedent
+
+  CompoundStatement.OldIf = <
     if <Exp>:
        <then:Block>
     <else:IfElse?>
@@ -21,7 +75,7 @@ context-free syntax
      align "if" else
   )}
   
-  IfElse.Elif = <
+  IfElse.OldElif = <
     elif <Exp>:
        <then:Block>
     <else:IfElse?>
@@ -30,7 +84,7 @@ context-free syntax
      align "elif" else
   )}
   
-  IfElse.Else = <
+  IfElse.OldElse = <
     else:
        <then:Block>
   > {layout(

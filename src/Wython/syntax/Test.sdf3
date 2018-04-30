@@ -13,6 +13,11 @@ context-free syntax
   TestNode.Node = "," Test
 
   Test.Test = OrTest OrTestExtension? 
+  TestNocond.OrTest = OrTest
+  TestNocond = LambdefNocond
+  
+  LambdefNocond.LambDefNocond = "lambda" ParameterList? ":" TestNocond
+    
   OrTestExtension.OrTest = "if" OrTest "else" Test
   OrTest.OrTest = AndTest AndTestExtension?
   AndTestExtension.AndTest = "or" AndTest
