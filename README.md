@@ -16,16 +16,16 @@ according to a logical progression.
 
 ## Levels
 
-Level 0: Lexical Expressions & Output
-Level 1: Expressions
-Level 2: Statements & Variables 
-Level 3: Functions & Type Annotations
-Level 4: Data Structures (Lists, Dicts etc.)
-Level 5: Classes
-Level 6: Lambdas
-Level 7: Standard Library
-Level 8: Super
-Level 9: Imports
+ - Level 0: Lexical Expressions & Output
+ - Level 1: Expressions
+ - Level 2: Statements & Variables 
+ - Level 3: Functions & Type Annotations
+ - Level 4: Data Structures (Lists, Dicts etc.)
+ - Level 5: Classes
+ - Level 6: Lambdas
+ - Level 7: Standard Library
+ - Level 8: Super
+ - Level 9: Imports
 
 ## Time Plan
 
