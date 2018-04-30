@@ -1,14 +1,13 @@
-module SimpleStatement_syntax
+module SimpleStatement
 
 imports
   
   Common
-  ID_syntax
-  Expression_syntax
-  Import_syntax
-  Parameters_syntax
-  Test_syntax
-  
+  ID
+  Expression
+  Parameters
+  Test
+
 sorts
 
   SimpleStatement

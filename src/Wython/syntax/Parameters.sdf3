@@ -1,11 +1,10 @@
-module Parameters_syntax
+module Parameters
 
 imports
   
   Common
-  ID_syntax
-  Test_syntax
-  
+  ID
+  Test
 sorts
 
   SimpleStatement

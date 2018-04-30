@@ -1,4 +1,4 @@
-module Type_syntax
+module Type
 
 imports
 

@@ -1,0 +1,40 @@
+module CompoundStatement
+
+imports
+  
+  ID
+  Expression
+  Program
+
+context-free start-symbols
+
+  CompoundStatement
+
+context-free syntax
+
+  CompoundStatement.If = <
+    if <Exp>:
+       <then:Block>
+    <else:IfElse?>
+  > {layout(
+     indent "if" then &&
+     align "if" else
+  )}
+  
+  IfElse.Elif = <
+    elif <Exp>:
+       <then:Block>
+    <else:IfElse?>
+  > {layout(
+     indent "elif" then &&
+     align "elif" else
+  )}
+  
+  IfElse.Else = <
+    else:
+       <then:Block>
+  > {layout(
+     indent "else:" then &&
+     offside "else:" then
+  )}
+     

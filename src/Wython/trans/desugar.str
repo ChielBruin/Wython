@@ -1,0 +1,30 @@
+module desugar
+
+imports
+  src-gen/signatures/Program-sig
+
+strategies
+//  desugar-all = innermost(desugar)
+//  desugar-all = topdown(debug; desugar)       //
+  desugar-all = topdown(try(desugar))
+//  desugar-all = bottomup(debug; desugar)      //
+//  desugar-all = bottomup(try(debug; desugar))
+//  desugar-all = alltd(debug; desugar)
+  
+signature
+  sorts
+    Block
+
+  constructors
+    Block: Aligned -> Block
+      
+rules  
+  // Desugar the Aligned block containing lines with statements and line-endings
+  // to a Block containing only the statements
+  desugar: Aligned(lines) -> Block(des-lines)
+    where
+      des-lines := <mapconcat(desugar-lines)> lines
+      
+  desugar-lines: SingleStatement(s, _) -> [s]
+  
+  desugar-lines: StatementList(h, _) -> h

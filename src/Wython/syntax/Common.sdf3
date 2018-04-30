@@ -4,11 +4,7 @@ lexical syntax
 
   Semicolon          = ";"
   Comma          = ","
-  LAYOUT         = [\ \t\n\r] 
-  CommentChar    = [\"] 
-  LAYOUT         = "\"\"\"" InsideComment* "\"\"\"" 
-  InsideComment  = ~[\"] 
-  InsideComment  = CommentChar 
+  LAYOUT         = [\ \t\n\r]
   LAYOUT         = "#" ~[\n\r]* NewLineEOF 
   NewLine        = [\n\r]
   NewLineEOF     = NewLine
@@ -16,10 +12,6 @@ lexical syntax
   EOF            =  
 
 lexical restrictions
-
-  // Ensure greedy matching for lexicals
-  CommentChar   -/- [\/]
-  
   // EOF may not be followed by any char
   EOF           -/- ~[]
 
@@ -27,6 +19,6 @@ context-free restrictions
 
   // Ensure greedy matching for comments
   
-  LAYOUT? -/- [\ \t\n\r]
+  LAYOUT? -/- [\ \t]
   LAYOUT? -/- [\/].[\/]
   LAYOUT? -/- [\/].[\*]

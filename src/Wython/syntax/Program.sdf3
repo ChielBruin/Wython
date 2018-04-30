@@ -1,0 +1,50 @@
+module Program
+
+imports
+  
+  Common
+  Test
+  Statement
+  Class
+  SimpleStatement
+  CompoundStatement
+
+context-free start-symbols
+  Start
+
+context-free syntax
+  Start.FileInput = <
+    <CodeElement*>
+    <EOF>
+  >
+  
+  Start.SingleInput = SingleInput
+  Start.EvalInput = TestList NewLine* EOF
+  
+  SingleInput.NewLine = NewLine
+  SingleInput.SimpleStatement = SimpleStatement
+  SingleInput.CompoundStatement = CompoundStatement NewLine
+  
+  CodeElement.NewLine = NewLine
+  CodeElement.Statement = Statement
+
+ Start.Empty = <
+    <EOF>
+  >
+
+  Start.Program = <
+    <Block>
+  >
+  
+  // FIXME: This should work (according to the documentation), but doesn't force the alignment
+  // http://www.metaborg.org/en/latest/source/langdev/meta/lang/sdf3/reference.html#layout-sensitive-parsing
+  Block.Aligned = <
+    <body:CodeLine+>
+  > {layout( align 0 body )}
+  
+  // Force that there can only be a single statement on a line, or ; separated
+   CodeLine.SingleStatement = CodeElement NewLineEOF {prefer}
+  CodeLine.StatementList   = {CodeElement ";"}+ NewLineEOF
+  
+//   CodeElement.ClassDef = ClassDef
+//  CodeElement.functionDef = FunctionDef

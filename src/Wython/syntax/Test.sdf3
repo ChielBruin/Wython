@@ -1,12 +1,11 @@
-module Test_syntax
+module Test
 
 imports
   
   Common
-  ID_syntax
-  Expression_syntax
-  Import_syntax
-  Parameters_syntax
+  ID
+  Expression
+  Parameters
 
 context-free syntax
 

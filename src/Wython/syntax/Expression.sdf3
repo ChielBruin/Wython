@@ -1,10 +1,10 @@
-module Expression_syntax
+module Expression
 
 imports
   
   Common
-  ID_syntax
-  Type_syntax
+  ID
+  Type
 
 template options
     tokenize: "(;{[,.!"
@@ -14,12 +14,13 @@ context-free start-symbols
   Exp
 
 context-free priorities
-    {left:      Exp.AIndex Exp.FunctionCall}  >
-    {right:     Exp.Not}                        >
-    {left:      Exp.Mul}                        >
-    {left:      Exp.Add Exp.Sub}                >
-    {non-assoc: Exp.Lt}                         >
-    {left:      Exp.And}
+    //TODO
+//    {left:      Exp.AIndex Exp.FunctionCall}    >
+//    {right:     Exp.Not}                        >
+//    {left:      Exp.Mul}                        >
+//    {left:      Exp.Add Exp.Sub}                >
+//    {non-assoc: Exp.Lt}                         >
+//    {left:      Exp.And}
 
 context-free syntax
 
@@ -29,6 +30,8 @@ context-free syntax
   ExpressionList.List = PossibleStarExp ExpressionListNode* Comma?
   ExpressionListNode.Node = "," PossibleStarExp 
 
+  Exp         = "(" Exp ")"    {bracket}
+  
   Exp.Int     = INT
   Exp.Float   = FLOAT
   Exp.String  = STRING
@@ -36,7 +39,6 @@ context-free syntax
   Exp.False   = "False"
   Exp.None    = "None"
   Exp.ID      = ID
-  Exp         = "(" Exp ")"    {bracket}
   
   Exp.Pow     = Exp "**" Exp   {left}
   Exp.Mul     = Exp "*" Exp    {left}
@@ -50,7 +52,7 @@ context-free syntax
   Exp.Leq     = Exp "<=" Exp   {non-assoc}
   Exp.Gt      = Exp ">" Exp    {non-assoc}
   Exp.Geq     = Exp ">=" Exp   {non-assoc}
-  Exp.Neq     = Exp "<>" Exp   {non-assoc}
+  // Exp.Neq     = Exp "<>" Exp   {non-assoc}
   Exp.Neq     = Exp "!=" Exp   {non-assoc}
   
   Exp.Eq      = Exp "==" Exp          {non-assoc}
@@ -67,8 +69,5 @@ context-free syntax
   IndexExp    = Exp
   Exp.Not     = "!" Exp                  {right}
 
-  Exp.FunctionCall = <<ID>(<FunctionArgs>)>
-  Exp.FunctionCall = <<ID>()>
-  FunctionArgs.Single   = FunctionArg
-  FunctionArgs.Multiple = <<FunctionArg>,<FunctionArgs>>
-  FunctionArg           = Exp
+  Exp.FunctionCall = Exp "("{FunctionArg ","}* ")"
+  FunctionArg      = Exp  
