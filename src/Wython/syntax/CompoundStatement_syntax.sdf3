@@ -1,0 +1,27 @@
+module CompoundStatement_syntax
+
+imports
+  
+  ID_syntax
+  Expression_syntax
+  Import_syntax
+  
+sorts
+
+  Suite
+  Test
+  TestList
+  Elif
+
+context-free start-symbols
+
+  CompoundStatement
+  Elif
+  Suite
+  Test
+  TestList
+
+context-free syntax
+  CompoundStatement.If = "if" Test ":" Suite Elif* "else" ":" Suite 
+
+  Elif.Elif = "elif" Test ":" Suite

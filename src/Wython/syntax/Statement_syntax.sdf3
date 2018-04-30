@@ -5,11 +5,13 @@ imports
   ID_syntax
   Expression_syntax
   Import_syntax
+  SimpleStatement_syntax
+  CompoundStatement_syntax
   
 
 context-free start-symbols
   Statement
 
 context-free syntax
-  Statement = Exp
-  Statement = Import
+  Statement = SimpleStatement
+  Statement = CompoundStatement

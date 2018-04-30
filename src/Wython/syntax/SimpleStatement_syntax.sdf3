@@ -1,0 +1,119 @@
+module SimpleStatement_syntax
+
+imports
+  
+  Common
+  ID_syntax
+  Expression_syntax
+  Import_syntax
+  
+sorts
+
+  SimpleStatement
+
+context-free start-symbols
+
+  SimpleStatement
+  ExpressionList
+  SmallStatement
+  SmallStatementList
+  TestList
+
+context-free syntax
+  SimpleStatement.SimpleStatement = SmallStatement SmallStatementList* Semicolon? NewLine
+
+  SmallStatement.Expression = 
+  SmallStatement.Delete = "del" ExpressionList
+  SmallStatement.Pass = "pass"
+  SmallStatement.Break = "break"
+  SmallStatement.Continue = "continue"
+  SmallStatement.Return = "return" TestList?
+  SmallStatement.Yield = YieldExpression
+  SmallStatement.Raise = "raise" RaiseArguments?
+  SmallStatement.ImportName = "import" DottedAsNames
+  SmallStatement.ImportFrom = "from" ImportFromArgs "import" ImportItems
+  SmallStatement.Global = "global" ID IDList*
+  SmallStatement.NonLocal = "nonlocal" ID IDList*
+  SmallStatement.Assert = "assert" Test TestNode?
+  
+  IDList.Node = "," ID
+
+  DottedAsNames.Names = DottedAsName DottedAsNameList*
+
+  DottedAsNameList.Node = "," DottedAsName
+  
+  DottedAsName.AsName = DottedName AsArgument?
+
+  DottedName.Name = ID DottedNameList*
+
+  DottedNameList.Node = "." ID
+
+  AsArgument.As = "as" ID
+  
+  ExpressionList.List = PossibleStarExp ExpressionListNode* Comma?
+  ExpressionListNode.Node = "," PossibleStarExp 
+  
+  PossibleStarExp.Exp = Exp
+  PossibleStarExp.StarExp = "*" Exp
+  
+  TestList.TestList = Test TestNode* Comma?
+  TestNode.Node = "," Test
+  Test.Test = OrTest OrTestExtension? 
+  OrTestExtension.OrTest = "if" OrTest "else" Test
+  OrTest.OrTest = AndTest AndTestExtension?
+  AndTestExtension.AndTest = "or" AndTest
+  AndTest.AndTest = NotTest NotTestExtension*
+  NotTestExtension.NotTest = "and" NotTest
+  NotTest.NotTest = "not" NotTest
+  NotTest.Comparison = Exp ComparisonExtension*
+
+  ComparisonExtension.Comparison = ComparisonOperator Exp
+
+  ComparisonOperator.Lt = "<"
+  ComparisonOperator.Gt = ">"
+  ComparisonOperator.Eq = "=="
+  ComparisonOperator.Geq = ">="
+  ComparisonOperator.Leq = "<="
+  ComparisonOperator.Neq = "!="
+  ComparisonOperator.In = "in"
+  ComparisonOperator.NotIn = "not" "in"
+  ComparisonOperator.Is = "is"
+  ComparisonOperator.IsNot = "is" "not"
+  
+  Test.LambdaDef = LambdaDef
+  
+  LambdaDef.LambdaDef = "lambda" ParameterList? ":" Test
+  
+  ParameterList.Params = 
+  
+  ParameterList = 
+  varargslist: (vfpdef ['=' test] (',' vfpdef ['=' test])* [',' [
+        '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
+      | '**' vfpdef [',']]]
+  | '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
+  | '**' vfpdef [',']
+)
+  
+
+  test: or_test ['if' or_test 'else' test] | lambdef
+  
+
+  IDList.IDList = "," ID
+  Dots.Dot = "."
+  Dots.Dots = "..."
+
+  ImportFromArgs.DottedName = Dots* DottedName
+  ImportFromArgs.JustDots = Dots+
+
+  ImportItems.All = "*"
+  ImportItems.Bracketed = "(" ImportAsNames ")" 
+  ImportItems.Normal = ImportAsNames 
+  
+  RaiseArguments.RaiseArgs = Test TestArguments?
+  TestArguments.TestArgs = "from" Test
+  
+  YieldExpression = "yield" YieldArguments?
+  YieldArguments.Test = "from" Test
+  YieldArguments.TestList = TestList
+
+  SmallStatementList.Node = Semicolon SmallStatement
