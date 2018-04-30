@@ -7,6 +7,7 @@ lexical syntax
   NewLineEOF     = [\n\r] 
   NewLineEOF     = EOF 
   EOF            =  
+  StatementEnd   = [\;]
 
 lexical restrictions
   // EOF may not be followed by any char
