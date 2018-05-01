@@ -1,0 +1,53 @@
+module ID
+
+    //- Identifiers can be a combination of letters in lowercase (a to z) or uppercase (A to Z) or digits (0 to 9) or an underscore (_). Names like myClass, var_1 and print_this_to_screen, all are valid example.
+    //- An identifier cannot start with a digit. 1variable is invalid, but variable1 is perfectly fine.
+    //- Keywords cannot be used as identifiers.
+
+imports
+
+context-free start-symbols
+    ID
+
+lexical syntax
+
+    ID      = [a-zA-Z\_] [a-zA-Z0-9\_]*
+  
+    ID      = "False"        {reject}
+    ID      = "True"         {reject}
+    ID      = "None"         {reject}
+    
+    ID      = "class"        {reject}
+    ID      = "finally"      {reject}
+    ID      = "is"           {reject}
+    ID      = "return"       {reject}
+    ID      = "continue"     {reject}
+    ID      = "for"          {reject}
+    ID      = "lambda"       {reject}
+    ID      = "try"          {reject}
+    ID      = "def"          {reject}
+    ID      = "from"         {reject}
+    ID      = "nonlocal"     {reject}
+    ID      = "while"        {reject}
+    ID      = "and"          {reject}
+    ID      = "del"          {reject}
+    ID      = "global"       {reject}
+    ID      = "not"          {reject}
+    ID      = "with"         {reject}
+    ID      = "as"           {reject}
+    ID      = "elif"         {reject}
+    ID      = "if"           {reject}
+    ID      = "or"           {reject}
+    ID      = "yield"        {reject}
+    ID      = "assert"       {reject}
+    ID      = "else"         {reject}
+    ID      = "import"       {reject}
+    ID      = "pass"         {reject}
+    ID      = "break"        {reject}
+    ID      = "except"       {reject}
+    ID      = "in"           {reject}
+    ID      = "raise"        {reject}
+    
+lexical restrictions
+    // Ensure greedy matching for lexicals
+    ID      -/- [a-zA-Z0-9\_]

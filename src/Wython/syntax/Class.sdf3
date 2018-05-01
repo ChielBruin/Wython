@@ -1,0 +1,19 @@
+module Class
+
+imports
+  
+  ID
+  Type
+  CompoundStatement
+
+context-free start-symbols
+  ClassDef
+
+context-free syntax
+  
+  ClassDef.Class = <
+    class <ID> <ParentDecl?>:
+      <Suite>
+  >
+  
+  ParentDecl.Parents = <(<ArgList>)>

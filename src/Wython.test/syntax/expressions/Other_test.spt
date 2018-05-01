@@ -1,0 +1,35 @@
+module other_test
+
+language Wython
+
+start symbol Exp
+
+
+// Expression "[" Expression "]"
+test EAR normal case            [[[ id[6] ]]]       parse succeeds
+test EAR normal case space      [[[ id [6] ]]]      parse succeeds
+test EAR int case               [[[ 6[6] ]]]        parse succeeds
+test EAR boolean case           [[[ True[False] ]]] parse succeeds
+test EAR complex case           [[[ id[1 + 2] ]]]   parse succeeds
+test EAR complex case AST       [[[ id[1 + 2] ]]]   parse to [[[ id[(1+2)] ]]]
+
+test EAR missing second bracket [[[ id[12 ]]]       parse fails
+test EAR missing first bracket  [[[ id 12] ]]]      parse fails
+test EAR missing second value   [[[ id[] ]]]        parse fails
+test EAR non expression 1       [[[ def[2] ]]]      parse fails
+test EAR non expression 2       [[[ id[def] ]]]     parse fails
+
+// "!" Expression
+test ENO normal case            [[ !True ]]             parse succeeds
+test ENO double not             [[ !!True ]]            parse succeeds
+test ENO normal case            [[ !0 ]]                parse succeeds
+test ENO normal case            [[ !identifier ]]       parse succeeds
+test ENO invalid expression     [[ !def ]]              parse fails
+test ENO associativity          [[ ! True and False ]]   parse to Wython [[(!True) and False]]
+
+// "(" Expression ")"
+test EBR empty brackets         [[ () ]]            parse fails
+test EBR normal case            [[ (1) ]]           parse succeeds
+test EBR double brackets        [[ ((1)) ]]         parse succeeds
+test EBR bracket mismatch       [[ ((1) ]]          parse fails
+test EBR bracket mismatch       [[ (1)) ]]          parse fails

@@ -23,6 +23,7 @@ language:
     sdf2table: c
     placeholder:
       prefix: "$"
+    jsglr-version: layout-sensitive
   stratego:
     format: ctree
     args:

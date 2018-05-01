@@ -1,0 +1,84 @@
+module Expression
+
+imports
+  
+  Common
+  ID
+  Type
+  Test
+  SimpleStatement
+  CompoundStatement
+
+template options
+    tokenize: "(;{[,.!"
+    keyword -/- [a-zA-Z0-9]
+
+context-free syntax
+
+  PossibleStarExp.Exp = Exp
+  PossibleStarExp.StarExp = StarExp 
+  
+  ExpressionList.List = {PossibleStarExp ","}+ Comma?
+
+  StarExp.StarExp = "*" Exp
+  
+  ExpList.List = {PossibleStarExp ","}+ Comma?
+  Exp.Exp = {XorExp "|"}+
+  XorExp.XorExp = {AndExp "^"}+
+  AndExp.AndExp = {ShiftExp "&"}+
+  ShiftExp.ShiftExp = ArithExp ArithExpNode*
+  ArithExp.ArithExp = Term TermNode*
+  Term.Term = Factor FactorNode*
+  Factor.Pos = "+" Factor 
+  Factor.Neg = "-" Factor 
+  Factor.Inv = "~" Factor 
+  Factor.Power = Power 
+  Power.Power = AtomExp PowerNode?
+  AtomExp.AtomExp = Await? Atom Trailer*
+
+  ArithExpNode.LeftShift = "<<" ArithExp
+  ArithExpNode.RightShift = ">>" ArithExp
+  TermNode.Add = "+" Term
+  TermNode.Sub = "-" Term
+  FactorNode.Mul = "*" Factor
+  FactorNode.At = "@" Factor
+  FactorNode.Div = "/" Factor
+  FactorNode.Mod = "%" Factor
+  FactorNode.IntDiv = "//" Factor
+  PowerNode.PowerNode = "**" Factor
+
+  Atom.False = "False"
+  Atom.True = "True"
+  Atom.None = "None"
+  Atom.ThreeDot = "..."
+  Atom.String = STRING
+  Atom.Int = INT
+  Atom.Float = FLOAT
+  Atom.ID = ID
+  Atom.YieldOrTestList = "(" YieldOrTestList ")"
+  Atom.DictOrSet = "{" DictOrSetMaker? "}"
+  Atom.TestListComp = "[" TestListComp? "]"
+
+  Trailer.ArgList = "(" ArgList? ")"
+  Trailer.SubscriptList = "[" SubscriptList? "]"
+  Trailer.DotName = "." ID
+
+  DictOrSetMaker.DictMaker = DictContents DictContentsNode* Comma?
+  DictOrSetMaker.SetMaker = TestListComp
+
+  TestListComp.TestListComp = TestListCompContents TestListCompNode* Comma?
+
+  TestListCompNode.SetContents = "," TestListCompContents
+  TestListCompNode.CompFor = CompFor
+ 
+  TestListCompContents.Test = Test
+  TestListCompContents.StarExp = StarExp
+  
+  DictContents.KeyValuePair = Test ":" Test
+  DictContents.Kwargs = "**" Exp
+  
+  DictContentsNode.DictContents = "," DictContents
+  DictContentsNode.CompFor = CompFor
+  
+  YieldOrTestList.Yield = Yield
+  YieldOrTestList.TestList = TestList

@@ -2,9 +2,10 @@ module Wython
 
 imports
 
-  Program_syntax
-  Expression_syntax
-  Statement_syntax
-//  Type_syntax
-//  FunctionDecl_syntax
-//  ClassDecl_syntax
+  ID
+  Program
+  Expression
+  Statement
+  Type
+//  FunctionDecl
+//  ClassDecl

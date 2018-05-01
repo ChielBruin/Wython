@@ -1,0 +1,92 @@
+module CompoundStatement
+
+imports
+  
+  Common
+  ID
+  Expression
+  Program
+  Statement
+  SimpleStatement
+  Parameters
+  Test
+  Class
+
+context-free start-symbols
+
+  CompoundStatement
+
+context-free syntax
+
+    CompoundStatement.If = "if" Test ":" Suite Elif* Else?
+    CompoundStatement.While = "while" Test ":" Suite Else?
+    CompoundStatement.For = For
+    CompoundStatement.Try = "try" ":" Suite Except+ Else? Finally?
+    CompoundStatement.TryFinally = "try" ":" Suite Finally
+    CompoundStatement.With = With
+    CompoundStatement.FuncDef =  FuncDef
+    CompoundStatement.ClassDef = "class" ID ArgList? ":" Suite
+    CompoundStatement.Decorated = Decorators Definition
+    CompoundStatement.AsyncFunc = Async FuncDef
+    CompoundStatement.AsyncWith = Async With
+    CompoundStatement.AsyncFor = Async For
+    
+    With.With = "with" { WithItem ","}+ ":" Suite
+
+    For.For = "for" ExpList "in" TestList ":" Suite Else?
+    
+    Finally.Finally = "finally" ":" Suite
+
+// TODO Default Except Clause
+    Except.Except = ExceptClause ":" Suite
+    
+    ExceptClause.ExceptClause = "except" ExceptArgument?
+
+    ExceptArgument.ExceptArgument = Test AsName?
+
+    Decorators.Decorators = Decorator+
+    
+    Decorator.Decorator = "@" DottedName ArgListInBraces? NewLine
+
+    ArgListInBraces.ArgListInBraces = "(" ArgList? ")"
+
+    Definition.ClassDef = ClassDef
+    Definition.FuncDef = FuncDef
+    Definition.AsyncFuncDef = AsyncFuncDef
+    
+    AsyncFuncDef.AsyncFuncDef = Async FuncDef
+    
+    FuncDef.FuncDef = "def" ID Parameters FuncType? ":" Suite
+    
+    SubscriptList.SubscriptList = {Subscript ","}+ Comma?
+    
+    Subscript.Test = Test
+    Subscript.Slice = Test? ":" Test? SliceOp?
+    
+    SliceOp.SliceOp = ":" Test?
+    
+    ArgList.ArgList = {Argument ","}+  Comma? 
+
+    Argument.CompForArgument = Test CompFor?
+    Argument.Assignment = Test "=" Test
+    Argument.Kwargs = "**" Test
+    Argument.Args = "*" Test
+
+    CompFor.CompFor = Async? "for" ExpList "in" OrTest CompIter?
+    
+    CompIf.CompIf = "if" TestNocond CompIter?
+
+    CompIter.CompFor = CompFor
+
+    WithItem.Item = Test WithItemAs?
+    WithItemAs.As = "as" Exp
+
+    Elif.Elif = "elif" Test ":" Suite
+    
+    Else.Else = "else" ":" Suite
+    
+    FuncType.FuncType = "->" Test
+
+    Suite.Statement = SimpleStatement
+    Suite.BlockLine = <<NewLine> <{Statement "\n"}+> >
+    // Suite.BlockLine = NewLine Indent Statement+ Dedent

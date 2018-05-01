@@ -1,0 +1,25 @@
+module desugar
+
+imports
+  src-gen/signatures/Statement-sig
+
+strategies
+//  desugar-all = innermost(desugar)
+//  desugar-all = topdown(debug; desugar)       //
+  desugar-all = topdown(try(desugar))
+//  desugar-all = bottomup(debug; desugar)      //
+//  desugar-all = bottomup(try(debug; desugar))
+//  desugar-all = alltd(debug; desugar)
+      
+rules
+  desugar: FileInput(stmts) -> des-stmts
+    where
+      clean-stmts := <mapconcat(cleanup)> stmts;
+      des-stmts   := <hash-desugar> clean-stmts
+ 
+  cleanup: Statement(e, _) -> <cleanup> e
+  cleanup: SimpleStatement(stmts, _) -> stmts
+  cleanup: e -> <desugar> e
+  
+  //TODO: Implement this
+  hash-desugar: e -> e

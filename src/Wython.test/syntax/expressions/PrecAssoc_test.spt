@@ -1,0 +1,44 @@
+module PrecAssoc_test
+
+language Wython
+
+start symbol Exp
+
+// Associativity
+test ASOC and                    [[ 1 and 2 and 3 ]]     parse to Wython [[(1 and 2) and 3]]
+test ASOC less                   [[ 1 < 2 < 3 ]]         parse fails
+test ASOC plus                   [[ 1 + 2 + 3 ]]         parse to Wython [[(1 + 2) + 3]]
+test ASOC minus                  [[ 1 - 2 - 3 ]]         parse to Wython [[(1 - 2) - 3]]
+test ASOC times                  [[ 1 * 2 * 3 ]]         parse to Wython [[(1 * 2) * 3]]
+
+test ASOC Array Index            [[[ id[id2[12]] ]]]     parse to Wython [[[ id[(id2[12])] ]]]
+test ASOC method call            [[ id.fun(2).funt(3)]]  parse to Wython [[ (id.fun(2)).funt(3) ]]
+test ASOC not                    [[ !!a ]]               parse to Wython [[ !(!a) ]]
+test ASOC not                    [[ !!a ]]               parse to Wython [[ !(!a) ]]
+test ASOC double and             [[21 and 14 and 14]]    parse to Wython [[(21 and 14) and 14]]
+test ASOC double less            [[21 < 14 < 14]]        parse fails
+test ASOC double addition        [[21 + 14 + 14]]        parse to Wython [[(21 + 14) + 14]]
+test ASOC double minus           [[21 - 14 - 14]]        parse to Wython [[(21 - 14) - 14]]
+test ASOC double times           [[21 * 14 * 14]]        parse to Wython [[(21 * 14) * 14]]
+
+test ASOC plus and times         [[21 + 14 * 25]]        parse to Wython [[21 + (14 * 25)]]
+test ASOC less and and           [[21 < 14 and True]]    parse to Wython [[(21 < 14) and True]]
+
+// Precedence
+test PREC not and times          [[ !True * 1 ]]     parse to Wython [[(!True) * 1]]
+test PREC plus and times         [[ 1 + 1 * 1 ]]     parse to Wython [[1 + (1 * 1)]]
+test PREC less and times         [[ 12 < 13 * 1 ]]   parse to Wython [[12 < (13 * 1)]]
+test PREC less and plus          [[ 12 < 13 + 1 ]]   parse to Wython [[12 < (13 + 1)]]
+
+test PREC AIndex Not             [[ !id[12] ]]       parse to Wython [[ !(id[12]) ]]
+test PREC FunApp Not             [[ !id.fun(12) ]]   parse to Wython [[ !(id.fun(12)) ]]
+
+test PREC Not Mul                [[ !5*5 ]]          parse to Wython [[ (!5) * 5 ]]
+
+test PREC Mul Add                [[ 1 + 2 * 3 ]]     parse to Wython [[ 1 + (2 * 3) ]]
+test PREC Mul Sub                [[ 1 - 2 * 3 ]]     parse to Wython [[ 1 - (2 * 3) ]]
+
+test PREC Add Less               [[ 1 < 2 + 3 ]]     parse to Wython [[ 1 < (2 + 3) ]]
+test PREC Sub Less               [[ 1 < 2 - 3 ]]     parse to Wython [[ 1 < (2 - 3) ]]
+
+test PREC Less And               [[ 1 and 2 < 3 ]]    parse to Wython [[ 1 and (2 < 3) ]]

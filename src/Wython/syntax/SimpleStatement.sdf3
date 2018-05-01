@@ -1,0 +1,108 @@
+module SimpleStatement
+
+imports
+  
+  Common
+  ID
+  Expression
+  Parameters
+  Test
+
+sorts
+
+  SimpleStatement
+
+context-free start-symbols
+
+  SimpleStatement
+
+context-free syntax
+
+  SimpleStatement.SimpleStatement = SmallStatement SmallStatementNode* Semicolon? NewLine
+
+  SmallStatementNode.SmallStatementNode = Semicolon SmallStatement
+
+  SmallStatement.ExpStatement = TestListStarExp ExpExtension
+  SimpleStatement.SimpleStatement = {SmallStatement ";"}+ Semicolon?
+
+  SmallStatement.Expression = Exp
+  SmallStatement.Delete = "del" ExpList
+  SmallStatement.Pass = "pass"
+  SmallStatement.Flow = FlowStatement
+  SmallStatement.ImportName = "import" DottedAsNames
+  SmallStatement.ImportFrom = "from" ImportFromArgs "import" ImportItems
+  SmallStatement.Global = "global" {ID ","}+
+  SmallStatement.NonLocal = "nonlocal" {ID ","}+
+  SmallStatement.Assert = "assert" Test TestNode?
+  
+  FlowStatement.Break = "break"
+  FlowStatement.Continue = "continue"
+  FlowStatement.Return = "return" TestList?
+  FlowStatement.Yield = Yield
+  FlowStatement.Raise = "raise" RaiseArguments?
+  
+  ExpExtension.AnnAssign = AnnAssign
+  ExpExtension.AuggAssign = AuggAssign AuggAssignArguments
+  ExpExtension.AssignList = AssignList
+
+  AnnAssign.AnnAssign = ":" Test InitialValue*
+
+  AuggAssignArguments.Yield = Yield
+  AuggAssignArguments.TestList = TestList
+  
+  AssignList.AssignList = "=" AssignArguments 
+  AssignArguments.Yield = Yield
+  AssignArguments.TestListStarExp = TestListStarExp
+  
+  TestListStarExp.TestFirst = Test TestListStarExpNode* Comma?
+  TestListStarExp.StarExpFirst = StarExp TestListStarExpNode* Comma?
+
+  TestListStarExpNode.TestNode = "," Test
+  TestListStarExpNode.StarExpNode = "," StarExp
+
+  AuggAssign.PlusEqual = "+="
+  AuggAssign.MinusEqual = "-="
+  AuggAssign.TimesEqual = "*="
+  AuggAssign.AtEqual = "@="
+  AuggAssign.DivEqual = "/="
+  AuggAssign.ModEqual = "%="
+  AuggAssign.BitwiseAndEqual = "&="
+  AuggAssign.BitwiseOrEqual = "|="
+  AuggAssign.BitwiseXorEqual = "^="
+  AuggAssign.ShiftLeftEqual = "<<="
+  AuggAssign.ShiftRightEqual = ">>="
+  AuggAssign.PowEqual = "**="
+  AuggAssign.IntegerDivEqual = "//="
+    
+  IDList.Node = "," ID
+
+  DottedAsNames.Names = {DottedAsName ","}+
+  
+  DottedAsName.AsName = DottedName AsName?
+
+  AsName.AsName= "as" ID
+
+  NameList.NameList = "," ID
+
+  DottedName.Name = {ID "."}+
+
+  Dots.Dot = "."
+  Dots.Dots = "..."
+
+  ImportFromArgs.DottedName = Dots* DottedName
+  ImportFromArgs.JustDots = Dots+
+
+  ImportItems.All = "*"
+  ImportItems.Bracketed = "(" ImportAsNames ")" 
+  ImportItems.Normal = ImportAsNames 
+  
+  ImportAsNames.ImportAsNames = ID ImportAsNamesParam?
+  ImportAsNamesParam.Param = "as" ID
+  
+  RaiseArguments.RaiseArgs = Test TestArguments?
+  TestArguments.TestArgs = "from" Test
+  
+  Yield.Yield = "yield" YieldArguments?
+
+  YieldArguments.Test = "from" Test
+  YieldArguments.TestList = TestList

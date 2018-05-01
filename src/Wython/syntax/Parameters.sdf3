@@ -1,0 +1,38 @@
+module Parameters
+
+imports
+  
+  Common
+  ID
+  Test
+
+context-free syntax
+
+  VarArgsList.Args = {ArgDef ","}* Comma? KwargsDefs?
+  VarArgsList.WildCard = ArgDefs
+  VarArgsList.Kwargs = KwargsDef
+  
+  TypedArgsList.TypedArgs = {TypedArgDef ","}* Comma? TypeDefs?
+  TypedArgsList.TypedWildcard = TypeDefs
+  TypedArgsList.TypedKwargs = KwargsTypeDef
+  
+  ArgDef.ArgDef = ID InitialValue? 
+
+  TypedArgDef.TypedArgDef = ID TypedArgDefExtension? InitialValue?
+
+  ArgDefs.ArgDefs = {ArgDef ","}* Comma? KwargsDef?
+  
+  TypeDefs.TypeDefs = "*" {TypedArgDef ","}* Comma? KwargsTypeDef?
+  TypeDefs.KwargsDef = KwargsTypeDef
+
+  TypedArgDefExtension.TypedArgDefExtension = ":" Test
+  
+  KwargsDef.KwargsDef = "**" ID Comma?
+
+  KwargsDefs.KwargsDefs = {ArgDef ","}+ Comma? KwargsDef?
+
+  KwargsTypeDef.KwargsTypeDef = "**" TypedArgDef Comma?
+  
+  Parameters.Parameters = "(" TypedArgsList ")"
+
+  InitialValue.InitialValue = "=" Test

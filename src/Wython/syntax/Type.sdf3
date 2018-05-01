@@ -1,0 +1,44 @@
+module Type
+
+imports
+
+lexical syntax
+  
+  INT    = [\+\-]? [0-9]+ 
+  FLOAT  = [\+\-]? [0-9]* "." [0-9]+([eE][0-9]+)?
+  FLOAT  = [\+\-]? [0-9]+ [eE][0-9]+
+  
+  STRING = DSTRING
+  STRING = SSTRING
+  STRING = MDSTRING
+  STRING = MSSTRING
+  
+  SSTRING = "'" SStringChar* "'" 
+  SStringChar     = ~[\'\n] 
+  SStringChar     = "\\'" 
+  SStringChar     = BackSlashChar
+  
+  DSTRING = "\"" DStringChar* "\"" 
+  DStringChar     = ~[\"\n] 
+  DStringChar     = "\\\"" 
+  DStringChar     = BackSlashChar 
+  
+  MDSTRING = '"""' MDStringChar* '"""'
+  MDStringChar     = ~[\"]      //TODO: make this reject tripple quotes
+  MDStringChar     = '\\"\\"\\"' 
+  MDStringChar     = BackSlashChar
+  
+  MSSTRING = "'''" MSStringChar* "'''"
+  MSStringChar     = ~[\']      //TODO: make this reject tripple quotes
+  MSStringChar     = "\\'\\'\\'" 
+  MSStringChar     = BackSlashChar
+  
+  BackSlashChar  = "\\" 
+
+lexical restrictions
+
+  // Ensure greedy matching for lexicals
+  INT           -/- [0-9]
+  
+  // Backslash chars in strings may not be followed by "   
+  BackSlashChar -/- [\"]

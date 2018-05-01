@@ -1,0 +1,20 @@
+module Assignment_test
+
+language Wython
+
+start symbol Statement
+
+test simple int                 [[ a = 12 ]]                  parse succeeds
+test simple string              [[ a = '12' ]]                parse succeeds
+test expression value           [[ a = func(12) + 12 ]]       parse succeeds
+test assign to number           [[ 12 = 42 ]]                 parse fails
+test assign to function call    [[ print(12) = 42 ]]          parse fails
+test assign to obj funccall     [[ obj.print(12) = 42 ]]      parse fails
+test assign to function         [[ print = 42 ]]              parse succeeds
+test assign to array            [[ arr[0] = 42 ]]             parse succeeds
+test assign to dict             [[ arr['key'] = 42 ]]         parse succeeds
+test assign to obj field        [[ obj.field = 42 ]]          parse succeeds
+test assign to obj field field  [[ obj.field.field = 42 ]]    parse succeeds
+test assign to obj arr          [[ obj.arr[0] = 42 ]]         parse succeeds
+test assign to obj field arr    [[ obj.field.arr[0] = 42 ]]   parse succeeds
+test assign to 2d array         [[ 2d[0][12] = 42 ]]          parse succeeds

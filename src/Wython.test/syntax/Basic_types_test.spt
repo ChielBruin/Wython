@@ -1,0 +1,156 @@
+module Basic_types_test
+
+language Wython
+
+start symbol Exp
+
+/*
+ * Numbers
+ */
+ 
+test INT single digit          [[1]]          parse succeeds
+test INT double digit          [[12]]         parse succeeds
+test INT triple digit          [[123]]        parse succeeds
+test INT leading zero          [[001]]        parse succeeds
+test INT zero                  [[0]]          parse succeeds
+test FLOAT normal              [[1.2]]        parse succeeds
+test FLOAT short float         [[.2]]         parse succeeds
+test FLOAT short float 2       [[,2]]         parse fails
+test FLOAT short float 3       [[1.2]]        parse succeeds
+test FLOAT short float 4       [[1,2]]        parse fails
+test FLOAT float scientiffic   [[1.2E10]]     parse succeeds
+test FLOAT float scientiffic 2 [[1.2e10]]     parse succeeds
+test FLOAT int scientiffic     [[2E10]]       parse succeeds
+test FLOAT int scientiffic 2   [[2e10]]       parse succeeds
+test INT letter in int         [[12F45]]      parse fails
+test INT other in int          [[12_45]]      parse fails
+test INT positive int          [[+1]]         parse succeeds
+test INT space separated       [[1 1]]        parse fails
+test INT parentheses           [[(1)]]        parse succeeds
+test INT newline               [[1\n1]]       parse fails
+
+test INT negative zero digit            [[-]]         parse fails
+test INT negative single digit          [[-1]]        parse succeeds
+test INT negative double digit          [[-12]]       parse succeeds
+test INT negative triple digit          [[-123]]      parse succeeds
+test INT negative leading zero          [[-001]]      parse succeeds
+test FLOAT negative float               [[-1.2]]      parse succeeds
+test FLOAT negative short float         [[-.2]]       parse succeeds
+test FLOAT negative float scientiffic   [[-1.2E10]]   parse succeeds
+test INT negative letter in int         [[-12F45]]    parse fails
+test INT negative other in int          [[-12_45]]    parse fails
+
+/*
+ * Booleans
+ */
+test BOOL True       [[True]]    parse succeeds
+test BOOL False      [[False]]   parse succeeds
+test BOOL true       [[true]]    parse succeeds     // Valid ID
+test BOOL false      [[false]]   parse succeeds     // Valid ID
+
+/*
+ * Strings
+ */
+
+test SString empty     [['']]         parse succeeds
+test DString empty     [[""]]         parse succeeds
+
+test SString single    [['a']]        parse succeeds
+test DString single    [["a"]]        parse succeeds
+test SString multiple  [['aBc']]      parse succeeds
+test DString multiple  [["aBc"]]      parse succeeds
+
+test SString quote    [['a'b']]       parse fails
+test DString quote    [["a"b"]]       parse fails
+test SString \quote   [['a\'b']]      parse succeeds
+test DString \quote   [["a\"b"]]      parse succeeds
+
+test SString multiline [[
+'this is an
+incorrect multiline string'
+]] parse fails
+
+test DString multiline [[
+"this is an
+incorrect multiline string"
+]] parse fails
+
+/*
+ * Multiline strings
+ */
+
+test MDString empty [[
+""""""
+]] parse succeeds
+
+test MDString unbalanced [[
+"""a""
+]] parse fails
+
+test MDString unbalanced2 [[
+""a""""
+]] parse fails
+
+test MDString single [[
+"""this is a string"""
+]] parse succeeds
+
+test MDString multiple [[
+"""this is a
+multiline string"""
+]] parse succeeds
+
+test MDString quotes [[
+"""this is "a" multiline string"""
+]] parse succeeds
+
+test MDString quotes2 [[
+"""this is ""a"" multiline string"""
+]] parse succeeds
+
+test MDString quotes3 [[
+"""this is """a""" multiline string"""
+]] parse fails
+
+test MDString \quotes [[
+"""this is \"\"\"a multiline string"""
+]] parse succeeds
+
+
+
+test MSString empty [[
+''''''
+]] parse succeeds
+
+test MSString unbalanced [[
+'''a''
+]] parse fails
+
+test MSString unbalanced2 [[
+''a''''
+]] parse fails
+
+test MSString single [[
+'''this is a string'''
+]] parse succeeds
+
+test MSString multiple [[
+'''this is a
+multiline string'''
+]] parse succeeds
+
+test MSString quotes [[
+'''this is 'a' multiline string'''
+]] parse succeeds
+
+test MSString quotes2 [[
+'''this is ''a'' multiline string'''
+]] parse succeeds
+
+test MSString quotes3 [[
+'''this is '''a''' multiline string'''
+]] parse fails
+
+test MSString \quotes [[
+'''this is \'\'\'a multiline string'''
+]] parse succeeds

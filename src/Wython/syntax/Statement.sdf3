@@ -1,0 +1,16 @@
+module Statement
+
+imports
+  Common
+  ID
+  Expression
+  Program
+  SimpleStatement
+  CompoundStatement
+
+context-free start-symbols
+  Statement
+  
+context-free syntax
+  Statement = SimpleStatement
+  Statement = CompoundStatement  

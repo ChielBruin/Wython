@@ -1,0 +1,29 @@
+module Program
+
+imports
+  
+  Common
+  Test
+  Statement
+  SimpleStatement
+  CompoundStatement
+
+context-free start-symbols
+  Start
+
+context-free syntax
+  // FIXME: This should work (according to the documentation), but doesn't force the alignment
+  // http://www.metaborg.org/en/latest/source/langdev/meta/lang/sdf3/reference.html#layout-sensitive-parsing
+  Start.FileInput = <
+    <body:CodeElement*>
+  > {layout( align 0 body )}
+  
+//  Start.SingleInput = SingleInput
+//  Start.EvalInput = TestList NewLine* EOF
+  
+  SingleInput.NewLine = NewLine
+  SingleInput.SimpleStatement = SimpleStatement
+  SingleInput.CompoundStatement = CompoundStatement NewLine
+  
+  CodeElement.NewLine = NewLine
+  CodeElement.Statement = Statement NewLineEOF

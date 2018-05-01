@@ -1,0 +1,67 @@
+module ID_test
+
+language Wython
+
+start symbol ID
+
+// https://www.programiz.com/python-programming/keywords-identifier
+
+/*
+ * Keywords
+ */
+ 
+test keyword False      [[False]]       parse fails
+test keyword class      [[class]]       parse fails
+test keyword finally    [[finally]]     parse fails
+test keyword is         [[is]]          parse fails
+test keyword return     [[return]]      parse fails
+test keyword None       [[None]]        parse fails
+test keyword continue   [[continue]]    parse fails
+test keyword for        [[for]]         parse fails
+test keyword lambda     [[lambda]]      parse fails
+test keyword try        [[try]]         parse fails
+test keyword True       [[True]]        parse fails
+test keyword def        [[def]]         parse fails
+test keyword from       [[from]]        parse fails
+test keyword nonlocal   [[nonlocal]]    parse fails
+test keyword while      [[while]]       parse fails
+test keyword and        [[and]]         parse fails
+test keyword del        [[del]]         parse fails
+test keyword global     [[global]]      parse fails
+test keyword not        [[not]]         parse fails
+test keyword with       [[with]]        parse fails
+test keyword as         [[as]]          parse fails
+test keyword elif       [[elif]]        parse fails
+test keyword if         [[if]]          parse fails
+test keyword or         [[or]]          parse fails
+test keyword yield      [[yield]]       parse fails
+test keyword assert     [[assert]]      parse fails
+test keyword else       [[else]]        parse fails
+test keyword import     [[import]]      parse fails
+test keyword pass       [[pass]]        parse fails
+test keyword break      [[break]]       parse fails
+test keyword except     [[except]]      parse fails
+test keyword in         [[in]]          parse fails
+test keyword raise      [[raise]]       parse fails
+
+
+/*
+ * Valid IDs
+ */
+
+test ID lowercase single      [[a]]         parse succeeds
+test ID lowercase multiple    [[abc]]       parse succeeds
+test ID uppercase single      [[A]]         parse succeeds
+test ID uppercase multiple    [[ABC]]       parse succeeds
+test ID mixedcase             [[AbCdeFg]]   parse succeeds
+
+test ID contains digit        [[Abc1]]      parse succeeds
+test ID contains digits       [[A2c1]]      parse succeeds
+test ID contains underscore   [[ab_de]]     parse succeeds
+
+test ID PascalCase            [[IdName]]    parse succeeds
+test ID camelCase             [[idName]]    parse succeeds
+test ID snake_case            [[id_name]]   parse succeeds
+
+test ID startswith digit      [[1abc]]      parse fails
+test ID startswith underscore [[_abc]]      parse succeeds
