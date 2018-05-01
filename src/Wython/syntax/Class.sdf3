@@ -4,7 +4,7 @@ imports
   
   ID
   Type
-  Program
+  CompoundStatement
 
 context-free start-symbols
   ClassDef
@@ -12,9 +12,8 @@ context-free start-symbols
 context-free syntax
   
   ClassDef.Class = <
-    class <ID> (<ID>):
-        <body:Block>
-
-  > {layout(
-     indent ":" body
-  )}
+    class <ID> <ParentDecl?>:
+      <Suite>
+  >
+  
+  ParentDecl.Parents = <(<ArgList>)>
