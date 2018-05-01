@@ -88,4 +88,5 @@ context-free syntax
     FuncType.FuncType = "->" Test
 
     Suite.Statement = SimpleStatement
+    Suite.BlockLine = <<NewLine> <block:Statement+> >
     // Suite.BlockLine = NewLine Indent Statement+ Dedent

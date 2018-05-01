@@ -54,7 +54,7 @@ context-free syntax
   Atom.String = STRING
   Atom.Int = INT
   Atom.Float = FLOAT
-  Atom.False = ID
+  Atom.ID = ID
   Atom.YieldOrTestList = "(" YieldOrTestList ")"
   Atom.DictOrSet = "{" DictOrSetMaker? "}"
   Atom.TestListComp = "[" TestListComp? "]"
