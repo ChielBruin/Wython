@@ -8,11 +8,11 @@ imports
 
 context-free syntax
 
-  VarArgsList.Args = {ArgDef ","}+ Comma? KwargsDefs?
+  VarArgsList.Args = {ArgDef ","}* Comma? KwargsDefs?
   VarArgsList.WildCard = ArgDefs
   VarArgsList.Kwargs = KwargsDef
   
-  TypedArgsList.TypedArgs = {TypedArgDef ","}+ Comma? TypeDefs?
+  TypedArgsList.TypedArgs = {TypedArgDef ","}* Comma? TypeDefs?
   TypedArgsList.TypedWildcard = TypeDefs
   TypedArgsList.TypedKwargs = KwargsTypeDef
   
