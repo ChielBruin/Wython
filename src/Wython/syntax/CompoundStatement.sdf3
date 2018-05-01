@@ -89,30 +89,3 @@ context-free syntax
 
     Suite.Statement = SimpleStatement
     // Suite.BlockLine = NewLine Indent Statement+ Dedent
-
-  CompoundStatement.OldIf = <
-    if <Exp>:
-       <then:Block>
-    <else:IfElse?>
-  > {layout(
-     indent "if" then &&
-     align "if" else
-  )}
-  
-  IfElse.OldElif = <
-    elif <Exp>:
-       <then:Block>
-    <else:IfElse?>
-  > {layout(
-     indent "elif" then &&
-     align "elif" else
-  )}
-  
-  IfElse.OldElse = <
-    else:
-       <then:Block>
-  > {layout(
-     indent "else:" then &&
-     offside "else:" then
-  )}
-     

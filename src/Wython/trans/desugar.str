@@ -1,7 +1,7 @@
 module desugar
 
 imports
-  src-gen/signatures/Program-sig
+  src-gen/signatures/Statement-sig
 
 strategies
 //  desugar-all = innermost(desugar)
@@ -10,21 +10,16 @@ strategies
 //  desugar-all = bottomup(debug; desugar)      //
 //  desugar-all = bottomup(try(debug; desugar))
 //  desugar-all = alltd(debug; desugar)
-  
-signature
-  sorts
-    Block
-
-  constructors
-    Block: Aligned -> Block
       
-rules  
-  // Desugar the Aligned block containing lines with statements and line-endings
-  // to a Block containing only the statements
-  desugar: Aligned(lines) -> Block(des-lines)
+rules
+  desugar: FileInput(stmts) -> des-stmts
     where
-      des-lines := <mapconcat(desugar-lines)> lines
-      
-  desugar-lines: SingleStatement(s, _) -> [s]
+      clean-stmts := <mapconcat(cleanup)> stmts;
+      des-stmts   := <hash-desugar> clean-stmts
+ 
+  cleanup: Statement(e, _) -> <cleanup> e
+  cleanup: SimpleStatement(stmts, _) -> stmts
+  cleanup: e -> <desugar> e
   
-  desugar-lines: StatementList(h, _) -> h
+  //TODO: Implement this
+  hash-desugar: e -> e

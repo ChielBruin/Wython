@@ -23,13 +23,16 @@ context-free syntax
   SmallStatementNode.SmallStatementNode = Semicolon SmallStatement
 
   SmallStatement.ExpStatement = TestListStarExp ExpExtension
+  SimpleStatement.SimpleStatement = {SmallStatement ";"}+ Semicolon?
+
+  SmallStatement.Expression = Exp
   SmallStatement.Delete = "del" ExpList
   SmallStatement.Pass = "pass"
   SmallStatement.Flow = FlowStatement
   SmallStatement.ImportName = "import" DottedAsNames
   SmallStatement.ImportFrom = "from" ImportFromArgs "import" ImportItems
-  SmallStatement.Global = "global" ID IDList*
-  SmallStatement.NonLocal = "nonlocal" ID IDList*
+  SmallStatement.Global = "global" {ID ","}+
+  SmallStatement.NonLocal = "nonlocal" {ID ","}+
   SmallStatement.Assert = "assert" Test TestNode?
   
   FlowStatement.Break = "break"
@@ -73,19 +76,15 @@ context-free syntax
     
   IDList.Node = "," ID
 
-  DottedAsNames.Names = DottedAsName DottedAsNameNode*
-
-  DottedAsNameNode.DottedAsNameNode = "," DottedAsName
+  DottedAsNames.Names = {DottedAsName ","}+
   
   DottedAsName.AsName = DottedName AsName?
-
-  DottedName.Name = ID DottedNameNode*
-
-  DottedNameNode.DottedNameNode = "." ID
 
   AsName.AsName= "as" ID
 
   NameList.NameList = "," ID
+
+  DottedName.Name = {ID "."}+
 
   Dots.Dot = "."
   Dots.Dots = "..."

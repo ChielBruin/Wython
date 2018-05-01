@@ -13,13 +13,12 @@ template options
     tokenize: "(;{[,.!"
     keyword -/- [a-zA-Z0-9]
 
-context-free start-symbols
-  Exp
-
 context-free syntax
 
   PossibleStarExp.Exp = Exp
   PossibleStarExp.StarExp = StarExp 
+  
+  ExpressionList.List = {PossibleStarExp ","}+ Comma?
 
   StarExp.StarExp = "*" Exp
   
