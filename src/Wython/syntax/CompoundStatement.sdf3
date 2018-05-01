@@ -31,12 +31,13 @@ context-free syntax
     CompoundStatement.AsyncWith = Async With
     CompoundStatement.AsyncFor = Async For
     
-    With.With = "with" WithItem WithItemNode* ":" Suite
+    With.With = "with" { WithItem ","}+ ":" Suite
 
     For.For = "for" ExpList "in" TestList ":" Suite Else?
     
     Finally.Finally = "finally" ":" Suite
 
+// TODO Default Except Clause
     Except.Except = ExceptClause ":" Suite
     
     ExceptClause.ExceptClause = "except" ExceptArgument?
@@ -57,18 +58,14 @@ context-free syntax
     
     FuncDef.FuncDef = "def" ID Parameters FuncType? ":" Suite
     
-    SubscriptList.SubscriptList = Subscript SubscriptNode* Comma?
-    
-    SubscriptNode.SubscriptNode = "," Subscript
+    SubscriptList.SubscriptList = {Subscript ","}+ Comma?
     
     Subscript.Test = Test
     Subscript.Slice = Test? ":" Test? SliceOp?
     
     SliceOp.SliceOp = ":" Test?
     
-    ArgList.ArgList = Argument ArgumentNode* Comma? 
-
-    ArgumentNode.ArgumentNode = "," Argument
+    ArgList.ArgList = {Argument ","}+  Comma? 
 
     Argument.CompForArgument = Test CompFor?
     Argument.Assignment = Test "=" Test
@@ -83,8 +80,6 @@ context-free syntax
 
     WithItem.Item = Test WithItemAs?
     WithItemAs.As = "as" Exp
-    
-    WithItemNode.WithItemNode = "," WithItem
 
     Elif.Elif = "elif" Test ":" Suite
     
@@ -93,8 +88,7 @@ context-free syntax
     FuncType.FuncType = "->" Test
 
     Suite.Statement = SimpleStatement
-    // TODO
-  //  Suite.BlockLine = NewLine Indent Statement+ Dedent
+    // Suite.BlockLine = NewLine Indent Statement+ Dedent
 
   CompoundStatement.OldIf = <
     if <Exp>:

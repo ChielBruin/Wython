@@ -8,32 +8,28 @@ imports
 
 context-free syntax
 
-  VarArgsList.Args = ArgDef ArgDefNode* Comma? KwargsDefs?
-  VarArgsList.WildCard = "*" ArgDefs ArgDefNode* Comma? KwargsDef?
-  VarArgsList.Kwargs = KwargsDefs
+  VarArgsList.Args = {ArgDef ","}+ Comma? KwargsDefs?
+  VarArgsList.WildCard = ArgDefs
+  VarArgsList.Kwargs = KwargsDef
   
-  TypedArgsList.TypedArgs = TypedArgDef TypedArgDefNode* Comma? TypeDefs?
-  TypedArgsList.TypedWildcard = "*" TypedArgDef? TypedArgDefNode* Comma? KwargsTypeDef?
+  TypedArgsList.TypedArgs = {TypedArgDef ","}+ Comma? TypeDefs?
+  TypedArgsList.TypedWildcard = TypeDefs
   TypedArgsList.TypedKwargs = KwargsTypeDef
   
   ArgDef.ArgDef = ID InitialValue? 
 
   TypedArgDef.TypedArgDef = ID TypedArgDefExtension? InitialValue?
 
-  ArgDefNode.Node = "," ArgDef
-
-  TypedArgDefNode.TypedArgDefNode = "," TypedArgDef
-
-  ArgDefs.ArgDefs = ID? ArgDefNode* Comma? KwargsDef?
+  ArgDefs.ArgDefs = {ArgDef ","}* Comma? KwargsDef?
   
-  TypeDefs.TypeDefs = "*" TypedArgDef? TypedArgDefNode* Comma? KwargsTypeDef?
+  TypeDefs.TypeDefs = "*" {TypedArgDef ","}* Comma? KwargsTypeDef?
   TypeDefs.KwargsDef = KwargsTypeDef
 
   TypedArgDefExtension.TypedArgDefExtension = ":" Test
   
   KwargsDef.KwargsDef = "**" ID Comma?
 
-  KwargsDefs.KwargsDefs = ArgDefs ArgDefNode* Comma? KwargsDef?
+  KwargsDefs.KwargsDefs = {ArgDef ","}+ Comma? KwargsDef?
 
   KwargsTypeDef.KwargsTypeDef = "**" TypedArgDef Comma?
   
