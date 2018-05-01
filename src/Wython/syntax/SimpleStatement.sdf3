@@ -18,22 +18,25 @@ context-free start-symbols
 
 context-free syntax
 
-  SimpleStatement.SimpleStatement = SmallStatement SmallStatementList* Semicolon? NewLine
+  SimpleStatement.SimpleStatement = SmallStatement SmallStatementNode* Semicolon? NewLine
 
-  SmallStatement.Exp = TestListStarExp ExpExtension
+  SmallStatementNode.SmallStatementNode = Semicolon SmallStatement
+
+  SmallStatement.ExpStatement = TestListStarExp ExpExtension
   SmallStatement.Delete = "del" ExpList
   SmallStatement.Pass = "pass"
-  SmallStatement.Break = "break"
-  SmallStatement.Continue = "continue"
-  SmallStatement.Return = "return" TestList?
-  SmallStatement.Yield = Yield
-  SmallStatement.Raise = "raise" RaiseArguments?
+  SmallStatement.Flow = FlowStatement
   SmallStatement.ImportName = "import" DottedAsNames
   SmallStatement.ImportFrom = "from" ImportFromArgs "import" ImportItems
   SmallStatement.Global = "global" ID IDList*
   SmallStatement.NonLocal = "nonlocal" ID IDList*
   SmallStatement.Assert = "assert" Test TestNode?
   
+  FlowStatement.Break = "break"
+  FlowStatement.Continue = "continue"
+  FlowStatement.Return = "return" TestList?
+  FlowStatement.Yield = Yield
+  FlowStatement.Raise = "raise" RaiseArguments?
   
   ExpExtension.AnnAssign = AnnAssign
   ExpExtension.AuggAssign = AuggAssign AuggAssignArguments
@@ -70,19 +73,19 @@ context-free syntax
     
   IDList.Node = "," ID
 
-  DottedAsNames.Names = DottedAsName DottedAsNameList*
+  DottedAsNames.Names = DottedAsName DottedAsNameNode*
 
-  DottedAsNameList.Node = "," DottedAsName
+  DottedAsNameNode.DottedAsNameNode = "," DottedAsName
   
-  DottedAsName.AsName = DottedName AsID?
+  DottedAsName.AsName = DottedName AsName?
 
-  DottedName.Name = ID DottedNameList*
+  DottedName.Name = ID DottedNameNode*
 
-  DottedNameList.Node = "." ID
+  DottedNameNode.DottedNameNode = "." ID
 
-  AsID.AsID= "as" ID
+  AsName.AsName= "as" ID
 
-  IDList.IDList = "," ID
+  NameList.NameList = "," ID
 
   Dots.Dot = "."
   Dots.Dots = "..."
@@ -104,5 +107,3 @@ context-free syntax
 
   YieldArguments.Test = "from" Test
   YieldArguments.TestList = TestList
-
-  SmallStatementList.Node = Semicolon SmallStatement

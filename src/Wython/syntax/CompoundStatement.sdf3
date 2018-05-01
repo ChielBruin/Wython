@@ -41,11 +41,13 @@ context-free syntax
     
     ExceptClause.ExceptClause = "except" ExceptArgument?
 
-    ExceptArgument.ExceptArgument = Test AsID?
+    ExceptArgument.ExceptArgument = Test AsName?
 
     Decorators.Decorators = Decorator+
     
-    Decorator.Decorator = "@" DottedName ArgList? NewLine
+    Decorator.Decorator = "@" DottedName ArgListInBraces? NewLine
+
+    ArgListInBraces.ArgListInBraces = "(" ArgList? ")"
 
     Definition.ClassDef = ClassDef
     Definition.FuncDef = FuncDef
@@ -55,9 +57,18 @@ context-free syntax
     
     FuncDef.FuncDef = "def" ID Parameters FuncType? ":" Suite
     
-    ArgList.ArgList = "(" Argument ArgumentListNode* Comma? ")"
+    SubscriptList.SubscriptList = Subscript SubscriptNode* Comma?
+    
+    SubscriptNode.SubscriptNode = "," Subscript
+    
+    Subscript.Test = Test
+    Subscript.Slice = Test? ":" Test? SliceOp?
+    
+    SliceOp.SliceOp = ":" Test?
+    
+    ArgList.ArgList = Argument ArgumentNode* Comma? 
 
-    ArgumentListNode.ArgumentListNode = "," Argument
+    ArgumentNode.ArgumentNode = "," Argument
 
     Argument.CompForArgument = Test CompFor?
     Argument.Assignment = Test "=" Test
@@ -65,8 +76,6 @@ context-free syntax
     Argument.Args = "*" Test
 
     CompFor.CompFor = Async? "for" ExpList "in" OrTest CompIter?
-    
-    Async.Async = "async"
     
     CompIf.CompIf = "if" TestNocond CompIter?
 

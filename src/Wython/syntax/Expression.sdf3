@@ -5,6 +5,9 @@ imports
   Common
   ID
   Type
+  Test
+  SimpleStatement
+  CompoundStatement
 
 template options
     tokenize: "(;{[,.!"
@@ -14,7 +17,7 @@ context-free start-symbols
   Exp
 
 context-free priorities
-    //TODO
+    //TODO Not needed, the grammar is unambigous!
 //    {left:      Exp.AIndex Exp.FunctionCall}    >
 //    {right:     Exp.Not}                        >
 //    {left:      Exp.Mul}                        >
@@ -31,46 +34,109 @@ context-free syntax
   
   ExpList.List = PossibleStarExp ExpListNode* Comma?
   ExpListNode.Node = "," PossibleStarExp 
+  
+  Exp.Exp = XorExp XorExpNode*
+  XorExp.XorExp = AndExp AndExpNode*
+  AndExp.AndExp = ShiftExp ShiftExpNode*
+  ShiftExp.ShiftExp = ArithExp ArithExpNode*
+  ArithExp.ArithExp = Term TermNode*
+  Term.Term = Factor FactorNode*
+  Factor.Pos = "+" Factor 
+  Factor.Neg = "-" Factor 
+  Factor.Inv = "~" Factor 
+  Factor.Power = Power 
+  Power.Power = AtomExp PowerNode?
+  AtomExp.AtomExp = Await? Atom Trailer*
 
+  Atom.False = "False"
+  Atom.True = "True"
+  Atom.None = "None"
+  Atom.ThreeDot = "..."
+  Atom.String = STRING
+  Atom.Int = INT
+  Atom.Float = FLOAT
+  Atom.False = ID
+  Atom.YieldOrTestList = "(" YieldOrTestList ")"
+  Atom.DictOrSet = "{" DictOrSetMaker? "}"
+  Atom.TestListComp = "[" TestListComp? "]"
+
+  Trailer.ArgList = "(" ArgList? ")"
+  Trailer.SubscriptList = "[" SubscriptList? "]"
+  Trailer.DotName = "." ID
+
+  XorExpNode.XorExpNode = "|" XorExp
+  AndExpNode.AndExpNode = "^" AndExp
+  ShiftExpNode.ShiftExpNode = "&" ShiftExp
+  ArithExpNode.LeftShift = "<<" ArithExp
+  ArithExpNode.RightShift = ">>" ArithExp
+  TermNode.Add = "+" Term
+  TermNode.Sub = "-" Term
+  FactorNode.Mul = "*" Factor
+  FactorNode.At = "@" Factor
+  FactorNode.Div = "/" Factor
+  FactorNode.Mod = "%" Factor
+  FactorNode.IntDiv = "//" Factor
+  PowerNode.PowerNode = "**" Factor
+  
+  DictOrSetMaker.DictMaker = DictContents DictContentsNode* Comma?
+  DictOrSetMaker.SetMaker = TestListComp
+
+  TestListComp.TestListComp = TestListCompContents TestListCompNode* Comma?
+
+  TestListCompNode.SetContents = "," TestListCompContents
+  TestListCompNode.CompFor = CompFor
+ 
+  TestListCompContents.Test = Test
+  TestListCompContents.StarExp = StarExp
+  
+  DictContents.KeyValuePair = Test ":" Test
+  DictContents.Kwargs = "**" Exp
+  
+  DictContentsNode.DictContents = "," DictContents
+  DictContentsNode.CompFor = CompFor
+  
+  YieldOrTestList.Yield = Yield
+  YieldOrTestList.TestList = TestList
+  
     // TODO
-  Exp         = "(" Exp ")"    {bracket}
+  // Exp         = "(" Exp ")"    {bracket}
   
-  Exp.Int     = INT
-  Exp.Float   = FLOAT
-  Exp.String  = STRING
-  Exp.True    = "True"
-  Exp.False   = "False"
-  Exp.None    = "None"
-  Exp.ID      = ID
-  
-  Exp.Pow     = Exp "**" Exp   {left}
-  Exp.Mul     = Exp "*" Exp    {left}
-  Exp.IntDiv  = Exp "//" Exp   {left}
-  Exp.Div     = Exp "/" Exp    {left}
-  Exp.Mod     = Exp "%" Exp    {left}
-  Exp.Add     = Exp "+" Exp    {left}
-  Exp.Sub     = Exp "-" Exp    {left}
-
-  Exp.Lt      = Exp "<" Exp    {non-assoc}
-  Exp.Leq     = Exp "<=" Exp   {non-assoc}
-  Exp.Gt      = Exp ">" Exp    {non-assoc}
-  Exp.Geq     = Exp ">=" Exp   {non-assoc}
-  // Exp.Neq     = Exp "<>" Exp   {non-assoc}
-  Exp.Neq     = Exp "!=" Exp   {non-assoc}
-  
-  Exp.Eq      = Exp "==" Exp          {non-assoc}
-  Exp.ObjEq   = <<Exp> is <Exp>>      {non-assoc}
-  Exp.IsNot   = <<Exp> is not <Exp>>  {non-assoc}
-  
-  Exp.In      = <<Exp> in <Exp>>      {non-assoc}
-  Exp.NotIn   = <<Exp> not in <Exp>>  {non-assoc}
-  
-  Exp.And     = Exp "and" Exp  {left}
-  Exp.Or      = Exp "or" Exp   {left}
-
-  Exp.AIndex  = Exp "[" IndexExp "]"     {left}
-  IndexExp    = Exp
-  Exp.Not     = "!" Exp                  {right}
-
-  Exp.FunctionCall = Exp "("{FunctionArg ","}* ")"
-  FunctionArg      = Exp  
+  // Exp.Int     = INT
+  // Exp.Float   = FLOAT
+  // Exp.String  = STRING
+  // Exp.True    = "True"
+  // Exp.False   = "False"
+  // Exp.None    = "None"
+  // Exp.ID      = ID
+  // 
+  // Exp.Pow     = Exp "**" Exp   {left}
+  // Exp.Mul     = Exp "*" Exp    {left}
+  // Exp.IntDiv  = Exp "//" Exp   {left}
+  // Exp.Div     = Exp "/" Exp    {left}
+  // Exp.Mod     = Exp "%" Exp    {left}
+  // Exp.Add     = Exp "+" Exp    {left}
+  // Exp.Sub     = Exp "-" Exp    {left}
+// 
+  // Exp.Lt      = Exp "<" Exp    {non-assoc}
+  // Exp.Leq     = Exp "<=" Exp   {non-assoc}
+  // Exp.Gt      = Exp ">" Exp    {non-assoc}
+  // Exp.Geq     = Exp ">=" Exp   {non-assoc}
+  // // Exp.Neq     = Exp "<>" Exp   {non-assoc}
+  // Exp.Neq     = Exp "!=" Exp   {non-assoc}
+  // 
+  // Exp.Eq      = Exp "==" Exp          {non-assoc}
+  // Exp.ObjEq   = <<Exp> is <Exp>>      {non-assoc}
+  // Exp.IsNot   = <<Exp> is not <Exp>>  {non-assoc}
+  // 
+  // Exp.In      = <<Exp> in <Exp>>      {non-assoc}
+  // Exp.NotIn   = <<Exp> not in <Exp>>  {non-assoc}
+  // 
+  // Exp.And     = Exp "and" Exp  {left}
+  // Exp.Or      = Exp "or" Exp   {left}
+// 
+  // Exp.AIndex  = Exp "[" IndexExp "]"     {left}
+  // IndexExp    = Exp
+  // Exp.Not     = "!" Exp                  {right}
+// 
+  // Exp.FunctionCall = Exp "("{FunctionArg ","}* ")"
+  // // // FunctionArg      = Exp  

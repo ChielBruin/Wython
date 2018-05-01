@@ -16,18 +16,24 @@ context-free syntax
   Test.LambdaDef = LambdaDef
 
   TestNocond.OrTest = OrTest
-  TestNocond = LambDefNocond
+  TestNocond.LambDefNoCond = LambDefNocond
   
   LambDefNocond.LambDefNocond = "lambda" VarArgsList? ":" TestNocond
 
   LambdaDef.LambdaDef = "lambda" VarArgsList? ":" Test
     
   OrTestExtension.OrTest = "if" OrTest "else" Test
+
   OrTest.OrTest = AndTest AndTestExtension?
+  
   AndTestExtension.AndTest = "or" AndTest
+  
   AndTest.AndTest = NotTest NotTestExtension*
+  
   NotTestExtension.NotTest = "and" NotTest
+  
   NotTest.NotTest = "not" NotTest
+  
   NotTest.Comparison = Exp ComparisonExtension*
 
   ComparisonExtension.Comparison = ComparisonOperator Exp
@@ -42,5 +48,3 @@ context-free syntax
   ComparisonOperator.NotIn = "not" "in"
   ComparisonOperator.Is = "is"
   ComparisonOperator.IsNot = "is" "not"
-  
-  
