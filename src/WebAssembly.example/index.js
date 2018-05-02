@@ -1,3 +1,2 @@
-WebAssembly.instantiateStreaming(fetch('play.wasm'), { console,
-  env:process.env })
+WebAssembly.instantiateStreaming(fetch('play.wasm'), { console })
   .then(obj => obj.instance.exports.main() )
