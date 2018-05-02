@@ -1,0 +1,33 @@
+module AST-Common
+
+imports
+  src-gen/signatures/ID-sig
+  src-gen/signatures/Type-sig
+  
+  ast-syntax/AST-Expression
+
+signature
+  sorts
+    Arguments
+    Keyword
+    
+    Singleton
+    Constant
+    
+ 
+  constructors
+    //         args    vararg    kwonlyargs  kw_defaults    kwarg   defaults
+    Arguments: [Arg] * Arg   *   [Arg]   *   [Expr]    *    Arg  *  [Expr]-> Arguments
+
+    //   arg    annotation
+    Arg: ID  *  Expr -> Arg
+
+    // keyword arguments supplied to call (NULL identifier for **kwargs)
+    //       arg    value
+    Keyword: ID  *  Expr -> Keyword
+    
+    None: Singleton
+    True: Singleton
+    False: Singleton
+    
+    None: Constant

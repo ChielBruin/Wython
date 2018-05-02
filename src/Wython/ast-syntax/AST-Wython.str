@@ -1,0 +1,15 @@
+module AST-Wython
+
+imports
+  ast-syntax/AST-Expression
+  ast-syntax/AST-Statement
+
+signature
+  sorts
+    Mod
+ 
+  constructors
+    Module:      [Stmt] * body -> Mod
+    Interactive: [Stmt] * body -> Mod
+    Expression:  Expr * Body   -> Mod
+    Suite:       [Stmt] * body -> Mod

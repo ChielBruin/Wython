@@ -1,0 +1,164 @@
+module AST-Expression
+
+
+imports
+  ast-syntax/AST-Common
+  
+signature
+  sorts
+    Expr
+    ExprContext
+    Slice
+    Boolop
+    Operator
+    Unaryop
+    Cmpop
+    Comprehension
+ 
+  constructors
+  //      operator   left   right
+  BoolOp: Boolop  *  Expr * Expr -> Expr
+  
+  //     operator   left   right
+  BinOp: Operator * Expr * Expr -> Expr
+  
+  //       operator    operand
+  UnaryOp: Unaryop  *  Expr    -> Expr
+  
+  //      arguments   body
+  Lambda: Arguments * Expr -> Expr
+  
+  //     cond   body   else
+  IfExp: Expr * Expr * Expr -> Expr
+  
+  //    keys     values
+  Dict: [Expr] * [Expr] -> Expr
+  
+  //   elements
+  Set: [Expr] -> Expr
+  
+  //        element  generators 
+  ListComp: Expr  *  [Comprehension] -> Expr
+  
+  //       element  generators 
+  SetComp: Expr  *  [Comprehension] -> Expr
+  
+  //        key    value  generators 
+  DictComp: Expr * Expr * [Comprehension] -> Expr
+  
+  //       element  generators 
+  GeneratorExp: Expr * [comprehension] -> Expr
+  
+  //     value
+  Await: Expr -> Expr
+  
+  //     value
+  Yield: Expr -> Expr
+  
+  //         value
+  YieldFrom: Expr -> Expr
+  
+  // Need sequences for compare to distinguish between
+  // x < 4 < 3 and (x < 4) < 3
+  //       left   ops       comparators
+  Compare: Expr * [Cmpop] * [expr] -> Expr
+  
+  //    func   args     keywords
+  Call: Expr * [Expr] * [Keyword] -> Expr
+  
+  //   n
+  Num: Object -> Expr
+  
+  //      s
+  String: STRING -> Expr
+  
+  //              value  conversion  format_spec
+  FormattedValue: Expr * Int    *    Expr -> Expr
+  
+  //         values
+  JoinedStr: [expr] -> Expr
+  
+  //     s
+  Bytes: BYTES
+  
+  //            value
+  NameConstant: Singleton -> Expr
+  
+  Ellipsis: Expr
+  
+  //        value
+  Constant: Constant -> Expr
+  
+  //         value    attr         context
+  Attribute: Expr  *  Identifier * ExprContext -> Expr
+  
+  //         value    slice   context
+  Subscript: Expr  *  Slice * ExprContext -> Expr
+  
+  //       value  context
+  Starred: Expr * ExprContext -> Expr
+    
+  //    id   context
+  Name: ID * ExprContext -> Expr
+  
+  //    elements   context
+  List: [Expr]  *  ExprContext -> Expr
+  
+  //     elements   context
+  Tuple: [Expr]  *  ExprContext -> Expr
+    
+  // Col_offset is the byte offset in the utf8 string the parser uses
+  //          lineno    col_offset
+  Attributes: Int   *   Int -> Expr
+
+    
+  Load: ExprContext
+  Store: ExprContext
+  Del: ExprContext
+  AugLoad: ExprContext
+  AugStore: ExprContext
+  Param: ExprContext
+     
+  //     lower  upper  step
+  Slice: Expr * Expr * Expr -> Slice
+  
+  //        dims
+  ExtSlice: [Slice] -> Slice
+  //     value
+  Index: Expr -> Slice
+  
+  And: Boolop
+  Or:  Boolop
+  
+  Add: Operator
+  Sub: Operator
+  Mult: Operator
+  MatMult: Operator
+  Div: Operator
+  Mod: Operator
+  Pow: Operator
+  LShift: Operator
+  RShift: Operator
+  BitOr: Operator
+  BitXor: Operator
+  BitAnd: Operator
+  FloorDiv: Operator
+  
+  Invert: Unaryop
+  Not: Unaryop
+  UAdd: Unaryop
+  USub: Unaryop
+  
+  Eq: Cmpop
+  NotEq: Cmpop
+  Lt: Cmpop
+  LtE: Cmpop
+  Gt: Cmpop
+  GtE: Cmpop
+  Is: Cmpop
+  IsNot: Cmpop
+  In: Cmpop
+  NotIn: Cmpop
+  
+  //             target   iter   ifs      is_async
+  Comprehension: Expr  *  Expr * [Expr] * Int -> Comprehension
