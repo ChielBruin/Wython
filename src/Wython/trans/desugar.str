@@ -1,8 +1,13 @@
 module desugar
 
 imports
-  src-gen/signatures/Wython-sig
+  src-gen/signatures/Program-sig
+  src-gen/signatures/Statement-sig
+  
   ast-syntax/AST-Wython
+  ast-syntax/AST-Statement
+  ast-syntax/AST-Expression
+  ast-syntax/AST-Common
 
 strategies
   desugar-all = desugar
@@ -12,6 +17,31 @@ strategies
 //  desugar-all = bottomup(try(debug; desugar))
 //  desugar-all = alltd(debug; desugar)
  
-rules  
-  //TODO: Implement this
-  desugar: e -> e
+rules
+  desugar: FileInput(elems) -> Module(sed-stmts)
+    where
+       sed-stmts := <mapconcat(desugar)> elems
+       
+  desugar: NewLine(_) -> []
+  desugar: Statement(stmt, _) -> <desugar> stmt
+  desugar: SimpleStatement(stmts, _) -> <map(desugar-stmt)> stmts
+
+  desugar-stmt: Expression(exp) -> ExprStmt(<desugar-expr> exp)
+  
+  desugar-expr: Exp([item]) -> <desugar-expr> item
+  desugar-expr: Exp([l, r]) -> BinOp(BitOr(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: XorExp([item]) -> <desugar-expr> item
+  desugar-expr: XorExp([l, r]) -> BinOp(BitXor(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: AndExp([item]) -> <desugar-expr> item
+  desugar-expr: AndExp([l, r]) -> BinOp(BitAnd(), <desugar-expr> l, <desugar-expr> r)
+  
+  //TODO: other case
+  desugar-expr: ShiftExp(h, []) -> <desugar-expr> h
+  
+  desugar-expr: ArithExp(h, []) -> <desugar-expr> h
+//  desugar-expr: ArithExp(h, tail) -> BinOp(BitAnd(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: e -> <debug> e
+  

@@ -9,7 +9,7 @@ signature
     Mod
  
   constructors
-    Module:      [Stmt] * body -> Mod
-    Interactive: [Stmt] * body -> Mod
-    Expression:  Expr * Body   -> Mod
-    Suite:       [Stmt] * body -> Mod
+    Module:      [Stmt] -> Mod
+    Interactive: [Stmt] -> Mod
+    Expression:  Expr   -> Mod
+    Suite:       [Stmt] -> Mod
