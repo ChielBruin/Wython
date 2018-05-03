@@ -7,7 +7,7 @@ const logStringFactory = memory => (position, length) => {
 
 const memory = new WebAssembly.Memory({initial: 2});
 
-WebAssembly.instantiateStreaming(fetch('play.wasm'), {
+WebAssembly.instantiateStreaming(fetch('hello.wasm'), {
   memory: {
     memory,
   },

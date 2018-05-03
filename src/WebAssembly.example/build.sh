@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ARGUMENTS
+#
+# $1 - The name of the source file, without extension.
+
 # CONSTS
 
 WAST=$1".wast"
@@ -33,7 +37,7 @@ const logStringFactory = memory => (position, length) => {
 
 const memory = new WebAssembly.Memory({initial: 2});
 
-WebAssembly.instantiateStreaming(fetch('play.wasm'), {
+WebAssembly.instantiateStreaming(fetch('${WASM}'), {
   memory: {
     memory,
   },
