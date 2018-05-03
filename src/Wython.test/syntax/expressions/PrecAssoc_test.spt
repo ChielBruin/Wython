@@ -2,11 +2,11 @@ module PrecAssoc_test
 
 language Wython
 
-start symbol Exp
+start symbol Test
 
 // Associativity
 test ASOC and                    [[ 1 and 2 and 3 ]]     parse to Wython [[(1 and 2) and 3]]
-test ASOC less                   [[ 1 < 2 < 3 ]]         parse fails
+test ASOC less                   [[ 1 < 2 < 3 ]]         parse succeeds
 test ASOC plus                   [[ 1 + 2 + 3 ]]         parse to Wython [[(1 + 2) + 3]]
 test ASOC minus                  [[ 1 - 2 - 3 ]]         parse to Wython [[(1 - 2) - 3]]
 test ASOC times                  [[ 1 * 2 * 3 ]]         parse to Wython [[(1 * 2) * 3]]
@@ -16,7 +16,7 @@ test ASOC method call            [[ id.fun(2).funt(3)]]  parse to Wython [[ (id.
 test ASOC not                    [[ !!a ]]               parse to Wython [[ !(!a) ]]
 test ASOC not                    [[ !!a ]]               parse to Wython [[ !(!a) ]]
 test ASOC double and             [[21 and 14 and 14]]    parse to Wython [[(21 and 14) and 14]]
-test ASOC double less            [[21 < 14 < 14]]        parse fails
+test ASOC double less            [[21 < 14 < 14]]        parse succeeds
 test ASOC double addition        [[21 + 14 + 14]]        parse to Wython [[(21 + 14) + 14]]
 test ASOC double minus           [[21 - 14 - 14]]        parse to Wython [[(21 - 14) - 14]]
 test ASOC double times           [[21 * 14 * 14]]        parse to Wython [[(21 * 14) * 14]]
