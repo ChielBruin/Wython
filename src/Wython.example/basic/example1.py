@@ -1,1 +1,1 @@
-a= not True
+print(12)
