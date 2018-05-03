@@ -15,6 +15,7 @@ template options
 
 context-free start-symbols
   Atom
+  Exp
 
 context-free syntax
 
