@@ -1,0 +1,94 @@
+module AST-Statement
+
+imports
+  ast-syntax/AST-Expression
+  ast-syntax/AST-Common
+  
+signature
+  sorts
+    Statement
+    Exceptionhandler
+    Alias
+    Withitem
+ 
+  constructors
+     //           name   args        body     decorators   return
+    FunctionDef: ID  *  Arguments * [Stmt] * [Expr]      * [Expr] -> Stmt
+    
+    //                name   args        body     decorators   return
+    AsyncFunctionDef: ID  *  Arguments * [Stmt] * [Expr]      * [Expr] -> Stmt
+    
+    //        name   bases    keywords    body     decorators
+    ClassDef: ID  *  [Expr] * [Keyword] * [Stmt] * [Expr]     -> Stmt
+
+    //      value
+    Return: Expr  -> Stmt
+   
+    //      targets
+    Delete: [Expr]  -> Stmt
+
+    //      targets    value
+    Assign: [Expr]  *  Expr -> Stmt
+    
+    //         target   op         value
+    AugAssign: Expr  *  Operator * Expr   -> Stmt
+    
+    // 'simple' indicates that we annotate simple name without parens
+    //         target   annotation  value  simple
+    AnnAssign: Expr  *  Expr   *    Expr * int -> Stmt
+
+    //   target   iter   body     else
+    For: Expr  *  Expr * [Stmt] * [Stmt] -> Stmt
+
+    //        target   iter   body     else
+    AsyncFor: Expr  *  Expr * [Stmt] * [Stmt] -> Stmt
+    
+    //     test   body     else
+    While: Expr * [Stmt] * [Stmt] -> Stmt
+    
+    //  test   body     else
+    If: Expr * [Stmt] * [Stmt] -> Stmt
+
+    //    items        body
+    With: [WithItem] * [Stmt] -> Stmt
+    
+    //         items        body
+    AsyncWith: [WithItem] * [Stmt] -> Stmt
+
+    //     Exception   Cause
+    Raise: Exp    *    Exp   -> Stmt
+    
+    //   body    handlers         else     finally
+    Try: Stmt * [Excepthandler] * [Stmt] * [Stmt]  -> Stmt
+    
+    //      test   msg
+    Assert: Expr * Expr -> Stmt
+
+    //      names
+    Import: Alias -> Stmt
+    
+    //          module   names     level
+    ImportFrom: ID   *   [Alias] * Int -> Stmt
+
+    //      names
+    Global: [ID] -> Stmt
+    
+    //        names
+    Nonlocal: [ID] -> Stmt
+    
+    //        value
+    ExprStmt: Expr -> Stmt
+    
+    Pass: Stmt
+    Break: Stmt
+    Continue: Stmt
+    
+    //             type   name   body
+    Excepthandler: Expr * ID  *  [Stmt] -> Exceptionhandler
+    
+    //      name    asname
+    Alias: ID   *   ID  -> Alias
+
+    //        context_expr   optional_vars
+    Withitem: Expr * Expr -> Withitem
+    
