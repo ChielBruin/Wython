@@ -1,0 +1,28 @@
+module Program
+
+imports
+  src-gen/signatures/Program-sig
+  src-gen/signatures/Statement-sig
+  
+  ast-syntax/AST-Wython
+  ast-syntax/AST-Statement
+  
+  trans/desugar/Statement
+  trans/desugar/Expression
+
+strategies
+  desugar-all = desugar
+//  desugar-all = topdown(debug; desugar)       //
+//  desugar-all = topdown(try(desugar))
+//  desugar-all = bottomup(debug; desugar)      //
+//  desugar-all = bottomup(try(debug; desugar))
+//  desugar-all = alltd(debug; desugar)
+ 
+rules
+  desugar: FileInput(elems) -> Module(sed-stmts)
+    where
+       sed-stmts := <mapconcat(desugar)> elems
+       
+  desugar: NewLine(_) -> []
+  desugar: Statement(stmt, _) -> <desugar> stmt
+  desugar: SimpleStatement(stmts, _) -> <map(desugar-stmt)> stmts

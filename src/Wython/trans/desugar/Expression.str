@@ -1,0 +1,78 @@
+module Expression
+
+imports
+  src-gen/signatures/Expression-sig
+  src-gen/signatures/CompoundStatement-sig
+  src-gen/signatures/Test-sig
+  src-gen/signatures/Common-sig
+  
+  ast-syntax/AST-Expression
+  ast-syntax/AST-Common
+
+rules  
+  desugar-expr: Exp([item]) -> <desugar-expr> item
+  desugar-expr: Exp([l, r]) -> BinOp(BitOr(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: XorExp([item]) -> <desugar-expr> item
+  desugar-expr: XorExp([l, r]) -> BinOp(BitXor(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: AndExp([item]) -> <desugar-expr> item
+  desugar-expr: AndExp([l, r]) -> BinOp(BitAnd(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: ShiftExp(h, []) -> <desugar-expr> h
+//  desugar-expr: ShiftExp(h, tail) -> BinOp(BitAnd(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: ArithExp(h, []) -> <desugar-expr> h
+//  desugar-expr: ArithExp(h, tail) -> BinOp(BitAnd(), <desugar-expr> l, <desugar-expr> r)
+  
+  desugar-expr: Term(h, []) -> <desugar-expr> h
+//  desugar-expr: Term(h, t) -> 
+
+  desugar-expr: Power(exp) -> <desugar-expr> exp
+  
+  desugar-expr: Power(atom, None()) -> <desugar-expr> atom
+  desugar-expr: Power(atom, exponent) -> BinOp(Pow(), <desugar-expr> atom, <desugar-expr> exponent)
+  
+  desugar-expr: AtomExp(Await(_), a, b) -> Await(<desugar-expr> AtomExp(None(), a, b))
+  desugar-expr: AtomExp(None(), atom, []) -> atom
+  desugar-expr: AtomExp(None(), atom, [h | t]) -> <desugar-atom> ([atom], h, t)
+  
+  desugar-atom: (obj, DotName(name), [h | t]) -> <desugar-atom> (<concat>[obj, [ID(name)]], h, t)
+  desugar-atom: (obj, ArgList(list), []) -> Call(<desugar-call> obj, args, kargs)
+    where
+      (args, kargs) := <desugar-args> list
+  desugar-atom: (obj, ArgList(list), [h|t]) -> <desugar-atom> ([Call(<desugar-call> obj, args, kargs)], h, t)
+    where
+      (args, kargs) := <desugar-args> list
+
+//  desugar-atom: (obj, SubscriptList(list), [h | t]) -> a
+
+
+  
+  desugar-call: [ID(name)] -> Name(ID(name), Load())
+  desugar-call: [e] -> e
+  desugar-call: [h | t] -> Attribute(<desugar-call> t, h, Load())
+  
+  desugar-args: Some(list) -> <desugar-args> list
+  desugar-args: ArgList(list, _) -> <desugar-args> (list, [], [])
+  desugar-args: ([], arg, karg) -> (arg, karg)
+  desugar-args: ([h | t], arg, karg) -> <desugar-args> (t, <concat> [arg, n_arg], <concat> [karg, n_karg])
+    where
+      (n_arg, n_karg) := <desugar-args> h
+  
+  desugar-args: CompForArgument(t, None()) -> ([<desugar-test> t], [])
+  
+  desugar-test: Test(or, None()) -> <desugar-test> or
+  desugar-test: Test(l, r) -> Compare(Eq(), <desugar-test> l, <desugar-test> r)
+  
+  desugar-test: OrTest(and, None()) -> <desugar-test> and
+  desugar-test: OrTest(l, r) -> BoolOp(Or(), <desugar-test> l, <desugar-test> r)
+  
+  desugar-test: AndTest(comp, []) -> <desugar-test> comp
+//  desugar-test: AndTest(l, r) -> BoolOp(And(), <desugar-test> l, <desugar-test> r)
+  
+  desugar-test: Comparison(exp, []) -> <desugar-expr> exp
+//  desugar-test: Comparison(l, r) -> BoolOp(And(), <desugar-test> l, <desugar-test> r)
+    
+    
+  desugar-expr: e -> <debug> e

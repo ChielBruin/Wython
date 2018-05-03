@@ -6,7 +6,7 @@ imports
   pp
   outline
   analysis
-  desugar
+  desugar/Program
 
 rules // Debugging
   
