@@ -1,0 +1,9 @@
+module analysis/Statement
+
+imports
+  desugar/-
+  analysis/-
+
+rules
+  [[ExprStmt(exp) ^(s)]] :=
+    [[exp ^(s)]].

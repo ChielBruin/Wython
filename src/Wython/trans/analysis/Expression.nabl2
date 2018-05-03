@@ -1,0 +1,18 @@
+module analysis/Expression
+
+imports
+  desugar/-
+  analysis/-
+      
+rules
+
+  callable[[ Name(ID(a), Load()) ^(s) ]] := 
+    Object{a} -> s,
+    Object{a} |-> d | warning $[Callable [a] might not be defined].
+    
+  [[ Call(func, args, kargs) ^(s) ]] :=
+    callable[[func ^ (s)]],
+    
+    new s', s ---> s',
+      Map1[[args  ^(s)]],
+      Map1[[kargs ^(s)]].

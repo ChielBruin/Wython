@@ -1,0 +1,19 @@
+module analysis/Program
+
+imports
+  desugar/-
+  analysis/-
+
+
+signature
+  namespaces Var Class Object
+  
+rules
+  
+  init ^ (s) :=
+    new s,
+    Object{"print"} <- s.
+    
+  [[Module(stmts) ^ (s)]] :=
+    new s', s' ---> s,
+      Map1[[ stmts ^ (s') ]].

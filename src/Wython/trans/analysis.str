@@ -9,6 +9,7 @@ imports
 
   pp
   desugar/Program
+  analysis/-
 
 rules // Analysis
 
