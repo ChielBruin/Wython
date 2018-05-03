@@ -1,8 +1,8 @@
-module Basic_types_test
+module Atom_test
 
 language Wython
 
-start symbol Exp
+start symbol Atom
 
 /*
  * Numbers
