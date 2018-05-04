@@ -89,8 +89,8 @@ signature
   //        value
   Constant: Constant -> Expr
   
-  //         value    attr         context
-  Attribute: Expr  *  Identifier * ExprContext -> Expr
+  //         value    attr   context
+  Attribute: Expr  *  ID  *  ExprContext -> Expr
   
   //         value    slice   context
   Subscript: Expr  *  Slice * ExprContext -> Expr
@@ -115,8 +115,8 @@ signature
   Load: ExprContext
   Store: ExprContext
   Del: ExprContext
-  AugLoad: ExprContext
-  AugStore: ExprContext
+  AugLoad: ExprContext  // unused
+  AugStore: ExprContext // unused
   Param: ExprContext
      
   //     lower  upper  step

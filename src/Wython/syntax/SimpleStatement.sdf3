@@ -17,11 +17,6 @@ context-free start-symbols
   SimpleStatement
 
 context-free syntax
-
-  SimpleStatement.SimpleStatement = SmallStatement SmallStatementNode* Semicolon? NewLine
-
-  SmallStatementNode.SmallStatementNode = Semicolon SmallStatement
-
   SmallStatement.ExpStatement = TestListStarExp ExpExtension
   SimpleStatement.SimpleStatement = {SmallStatement ";"}+ Semicolon?
 

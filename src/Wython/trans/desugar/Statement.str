@@ -1,0 +1,11 @@
+module Statement
+
+imports
+  src-gen/signatures/Statement-sig
+  
+  ast-syntax/AST-Statement
+ 
+  trans/desugar/Expression
+
+rules
+  desugar-stmt: Expression(exp) -> ExprStmt(<desugar-expr> exp)

@@ -22,8 +22,8 @@ context-free syntax
 //  Start.EvalInput = TestList NewLine* EOF
   
   SingleInput.NewLine = NewLine
-  SingleInput.SimpleStatement = SimpleStatement
-  SingleInput.CompoundStatement = CompoundStatement NewLine
+  SingleInput.SISimpleStatement = SimpleStatement
+  SingleInput.SICompoundStatement = CompoundStatement NewLine
   
   CodeElement.NewLine = NewLine
   CodeElement.Statement = Statement NewLineEOF
