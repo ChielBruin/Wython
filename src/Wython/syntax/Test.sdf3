@@ -7,6 +7,9 @@ imports
   Expression
   Parameters
 
+context-free start-symbols
+  Test
+
 context-free syntax
 
   TestList.TestList = Test TestNode* Comma?

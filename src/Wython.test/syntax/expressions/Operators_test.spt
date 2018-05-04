@@ -2,7 +2,7 @@ module Operators_test
 
 language Wython
 
-start symbol Exp
+start symbol Test
 
 /*
  * Binary arithmatic expressions [**, *, /, //, %, +, -]
@@ -53,8 +53,8 @@ test BA minus noExp2        [[@ - 12]]              parse fails
 
 test BA increment          [[ 11++ ]]           parse fails
 test BA decrement          [[ 11-- ]]           parse fails
-test BA increment2         [[ ++11 ]]           parse fails
-test BA decrement2         [[ --11 ]]           parse fails
+test BA increment2         [[ ++11 ]]           parse succeeds
+test BA decrement2         [[ --11 ]]           parse succeeds
 
 
  /*
@@ -108,28 +108,28 @@ test BB is id        [[hello is False]]         parse succeeds
 test BB is boolean   [[True is False]]          parse succeeds
 test BB is noExp1    [[12 is def]]              parse fails
 test BB is noExp2    [[import is 12]]           parse fails
-test BB is no space  [[[ id ist ]]]             parse fails
+test BB is no space  [[[ id is2 ]]]             parse fails
 
 test BB is not digit     [[1 is not 2]]         parse succeeds
 test BB is not id        [[hello is not False]] parse succeeds
 test BB is not boolean   [[True is not False]]  parse succeeds
 test BB is not noExp1    [[12 is not def]]      parse fails
 test BB is not noExp2    [[import is not 12]]   parse fails
-test BB is not no space  [[[ id not ist ]]]     parse fails
+test BB is not no space  [[[ id not is2 ]]]     parse fails
 
 test BB in digit     [[1 in 2]]                 parse succeeds
 test BB in id        [[hello in False]]         parse succeeds
 test BB in boolean   [[True in False]]          parse succeeds
 test BB in noExp1    [[12 in def]]              parse fails
 test BB in noExp2    [[import in 12]]           parse fails
-test BB in no space  [[[ id int ]]]             parse fails
+test BB in no space  [[[ id in2 ]]]             parse fails
 
 test BB not in digit     [[1 not in 2]]         parse succeeds
 test BB not in id        [[hello not in False]] parse succeeds
 test BB not in boolean   [[True not in False]]  parse succeeds
 test BB not in noExp1    [[12 not in def]]      parse fails
 test BB not in noExp2    [[import not in 12]]   parse fails
-test BB not in no space  [[[id not int ]]]      parse fails
+test BB not in no space  [[[id not in2 ]]]      parse fails
 
 test BB and digit    [[1 and 2]]                parse succeeds
 test BB and id       [[hello and False]]        parse succeeds
@@ -146,14 +146,9 @@ test BB or no space  [[True orFalse]]           parse succeeds
 test BB or noExp1    [[@ or False]]             parse fails
 test BB single or    [[True Or False]]          parse fails
 test BB ||           [[True || False]]          parse fails
-
-
-/*
- * Unsupported operations
- */
  
-test UO bitwise or       [[ 11 | 12 ]]          parse fails
-test UO bitwise and      [[ 11 & 12 ]]          parse fails
-test UO bitwise xor      [[ 11 ^ 12 ]]          parse fails
-test UO left bit shift   [[ 11 << 12 ]]         parse fails
-test UO right bit shift  [[ 11 >> 12 ]]         parse fails
+test UO bitwise or       [[ 11 | 12 ]]          parse succeeds
+test UO bitwise and      [[ 11 & 12 ]]          parse succeeds
+test UO bitwise xor      [[ 11 ^ 12 ]]          parse succeeds
+test UO left bit shift   [[ 11 << 12 ]]         parse succeeds
+test UO right bit shift  [[ 11 >> 12 ]]         parse succeeds

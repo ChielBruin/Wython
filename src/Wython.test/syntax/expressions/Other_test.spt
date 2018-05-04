@@ -2,7 +2,7 @@ module other_test
 
 language Wython
 
-start symbol Exp
+start symbol Test
 
 
 // Expression "[" Expression "]"
@@ -19,13 +19,14 @@ test EAR missing second value   [[[ id[] ]]]        parse fails
 test EAR non expression 1       [[[ def[2] ]]]      parse fails
 test EAR non expression 2       [[[ id[def] ]]]     parse fails
 
-// "!" Expression
-test ENO normal case            [[ !True ]]             parse succeeds
-test ENO double not             [[ !!True ]]            parse succeeds
-test ENO normal case            [[ !0 ]]                parse succeeds
-test ENO normal case            [[ !identifier ]]       parse succeeds
-test ENO invalid expression     [[ !def ]]              parse fails
-test ENO associativity          [[ ! True and False ]]   parse to Wython [[(!True) and False]]
+// "not" Expression
+test ENO normal case            [[ not True ]]             parse succeeds
+test ENO double not             [[ not not True ]]         parse succeeds
+test ENO normal case            [[ not 0 ]]                parse succeeds
+test ENO normal case            [[ not identifier ]]       parse succeeds
+test ENO invalid expression     [[ not def ]]              parse fails
+test ENO invalid expression     [[ not0 ]]                 parse fails
+test ENO associativity          [[ not True and False ]]   parse to Wython [[(not True) and False]]
 
 // "(" Expression ")"
 test EBR empty brackets         [[ () ]]            parse fails

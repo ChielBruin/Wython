@@ -13,6 +13,10 @@ template options
     tokenize: "(;{[,.!"
     keyword -/- [a-zA-Z0-9]
 
+context-free start-symbols
+  Atom
+  Exp
+
 context-free syntax
 
   PossibleStarExp.Exp = Exp
